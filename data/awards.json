@@ -1,0 +1,50 @@
+{
+  "headline": {
+    "count": 13,
+    "title": "NH's Best Ice Cream",
+    "source": "New Hampshire Magazine",
+    "years": "2009, '10, '13, '16–'25"
+  },
+  "awards": [
+    {
+      "id": "nh-best-13x",
+      "title": "NH's Best Ice Cream",
+      "subtitle": "13 Times",
+      "source": "New Hampshire Magazine",
+      "years": "2009, '10, '13, '16–'25",
+      "featured": true
+    },
+    {
+      "id": "ne-best-flavor",
+      "title": "New England's Best Flavor",
+      "subtitle": "Kahlua Fudge Brownie",
+      "source": "WBZ TV4 Boston",
+      "years": "1987",
+      "featured": true
+    },
+    {
+      "id": "best-frappe",
+      "title": "Best Frappe in New England",
+      "subtitle": "Two Years Running",
+      "source": "NECN's Baby You're the Best",
+      "years": "2010 & 2011",
+      "featured": true
+    },
+    {
+      "id": "wsj",
+      "title": "Wall Street Journal",
+      "subtitle": "Featured",
+      "source": "Wall Street Journal",
+      "years": "2022",
+      "featured": false
+    },
+    {
+      "id": "yankee",
+      "title": "Yankee Magazine",
+      "subtitle": "Featured",
+      "source": "Yankee Magazine",
+      "years": "2022",
+      "featured": false
+    }
+  ]
+}

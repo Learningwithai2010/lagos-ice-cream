@@ -1,101 +1,100 @@
-import Image from "next/image";
+import Navbar from '@/components/Navbar'
+import Hero from '@/components/Hero'
+import FlavorBoard from '@/components/FlavorBoard'
+import AwardWall from '@/components/AwardWall'
+import FlavorExplorer from '@/components/FlavorExplorer'
+import StoryTimeline from '@/components/StoryTimeline'
+import VisitSection from '@/components/VisitSection'
+import Footer from '@/components/Footer'
+import ChatWidget from '@/components/ChatWidget'
+import CateringForm from '@/components/CateringForm'
+import SMSAlerts from '@/components/SMSAlerts'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <FlavorBoard />
+        <AwardWall />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        {/* Features section */}
+        <section className="section-pad bg-cream">
+          <div className="container-tight">
+            <div className="grid md:grid-cols-2 gap-8">
+              <SMSAlerts />
+
+              <div className="card-base p-8 md:p-10 flex flex-col justify-between">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center mb-5">
+                    <span className="text-2xl">🎉</span>
+                  </div>
+                  <h3 className="font-display font-bold text-2xl md:text-3xl text-ink mb-3">
+                    Bringing Lago&apos;s to Your Party?
+                  </h3>
+                  <p className="text-stone-warm leading-relaxed mb-6">
+                    We do catering for birthdays, weddings, and corporate events. Order half gallons
+                    in advance and we&apos;ll have them ready when you arrive.
+                  </p>
+                </div>
+                <Link href="#catering" className="btn-primary self-start">
+                  Request Catering
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <StoryTimeline />
+        <FlavorExplorer />
+
+        {/* Story image strip */}
+        <section className="relative overflow-hidden">
+          <div className="h-72 md:h-96 relative">
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=1600&q=80&auto=format"
+              alt="New England summer coastline"
+              fill
+              className="object-cover"
+              unoptimized
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-ink/75 to-ink/25 flex items-center">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p className="section-label text-white/60">NH Seacoast Tradition</p>
+                <h2 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+                  Four Generations.<br />One Recipe.
+                </h2>
+                <Link href="/our-story" className="text-white font-semibold hover:text-cream-200 transition-colors">
+                  Read our story →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Catering form */}
+        <section id="catering" className="section-pad bg-white">
+          <div className="container-tight max-w-2xl">
+            <div className="text-center mb-10">
+              <p className="section-label">Events & Catering</p>
+              <h2 className="font-display text-display-md font-bold text-ink mb-3">
+                Bring Lago&apos;s to Your Event
+              </h2>
+              <p className="text-stone-warm">
+                Birthdays, weddings, corporate events — we&apos;ve got you covered.
+              </p>
+            </div>
+            <CateringForm />
+          </div>
+        </section>
+
+        <VisitSection />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      <Footer />
+      <ChatWidget />
+    </>
+  )
 }

@@ -1,0 +1,86 @@
+[
+  {
+    "year": "1981",
+    "title": "The Beginning",
+    "description": "Mike, Carol, and Andrea Lago open their first ice cream stand at 71 Lafayette Road in Rye, NH. Arnold \"Gramps\" Wade teaches them the craft of homemade ice cream.",
+    "highlight": true,
+    "icon": "star"
+  },
+  {
+    "year": "1982",
+    "title": "Kahlua Fudge Brownie is Born",
+    "description": "Steve Grenier creates the legendary Kahlua Fudge Brownie — a recipe that would earn the title of New England's Best Flavor five years later.",
+    "highlight": false,
+    "icon": "scoop"
+  },
+  {
+    "year": "1986",
+    "title": "Penn State Training",
+    "description": "Steve and Andrea train at the prestigious Penn State Ice Cream School, mastering the science behind world-class homemade ice cream.",
+    "highlight": false,
+    "icon": "award"
+  },
+  {
+    "year": "1987",
+    "title": "New England's Best Flavor",
+    "description": "WBZ TV4 Boston awards Kahlua Fudge Brownie \"New England's Best Flavor\" — putting Lago's on the regional map.",
+    "highlight": true,
+    "icon": "trophy"
+  },
+  {
+    "year": "1992",
+    "title": "Cappuccino Slam Debuts",
+    "description": "The beloved Cappuccino Slam — espresso ice cream with homemade fudge hazelnut swirl — becomes an instant classic.",
+    "highlight": false,
+    "icon": "scoop"
+  },
+  {
+    "year": "2009",
+    "title": "First NH Magazine Win",
+    "description": "New Hampshire Magazine names Lago's \"NH's Best Ice Cream\" for the first time — the start of a historic run.",
+    "highlight": true,
+    "icon": "trophy"
+  },
+  {
+    "year": "2010",
+    "title": "Olympic Bronze & Frappe Fame",
+    "description": "Nephew Scotty Lago wins Olympic bronze in halfpipe snowboarding in Vancouver — the Scotty Lago's Bronze Run flavor celebrates his triumph. NECN also names Lago's Best Frappe in New England.",
+    "highlight": true,
+    "icon": "medal"
+  },
+  {
+    "year": "2011",
+    "title": "Albanian Baklava & 30 Years",
+    "description": "The unique Albanian Baklava flavor is introduced. Lago's celebrates 30 years serving the NH Seacoast with four generations of family involved.",
+    "highlight": false,
+    "icon": "star"
+  },
+  {
+    "year": "2020",
+    "title": "Funky Panda is Born",
+    "description": "Mike Lago creates what becomes the #1 best seller: Funky Panda — oreo ice cream with toasted coconut and caramel swirl.",
+    "highlight": true,
+    "icon": "scoop"
+  },
+  {
+    "year": "2021",
+    "title": "40th Anniversary Season",
+    "description": "Lago's celebrates four decades of handcrafted ice cream on the NH Seacoast.",
+    "highlight": false,
+    "icon": "star"
+  },
+  {
+    "year": "2022",
+    "title": "Wall Street Journal & Yankee Magazine",
+    "description": "Featured in both the Wall Street Journal and Yankee Magazine — national recognition for a beloved local institution.",
+    "highlight": true,
+    "icon": "press"
+  },
+  {
+    "year": "2025",
+    "title": "13× NH's Best Ice Cream",
+    "description": "New Hampshire Magazine names Lago's \"NH's Best Ice Cream\" for the 13th time, cementing a legacy unmatched in the state.",
+    "highlight": true,
+    "icon": "trophy"
+  }
+]
