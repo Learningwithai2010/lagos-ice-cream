@@ -35,7 +35,7 @@ export default function FlavorBoard() {
 
   const fetchBoard = useCallback(async () => {
     try {
-      const res = await fetch('/netlify/functions/flavor-board', { cache: 'no-store' })
+      const res = await fetch('/api/flavor-board', { cache: 'no-store' })
       if (res.ok) {
         const data = await res.json()
         setActiveFlavors(data.flavors)

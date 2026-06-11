@@ -27,7 +27,7 @@ export default function AdminPage() {
   const fetchCurrent = async () => {
     setLoadingBoard(true)
     try {
-      const res = await fetch('/netlify/functions/flavor-board')
+      const res = await fetch('/api/flavor-board')
       const data = await res.json()
       if (data.flavors) {
         setSelected(new Set(data.flavors))
@@ -59,7 +59,7 @@ export default function AdminPage() {
     setLoading(true)
     setSaveSuccess(false)
     try {
-      const res = await fetch('/netlify/functions/flavor-board', {
+      const res = await fetch('/api/flavor-board', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ passcode: PASSCODE, flavors: Array.from(selected) }),
