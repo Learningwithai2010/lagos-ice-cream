@@ -38,20 +38,21 @@ const sectionVars = {
 }
 
 const fadeUpVars = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 48, scale: 0.97 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+    scale: 1,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
   },
 }
 
 const gridVars = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 32 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
   },
 }
 

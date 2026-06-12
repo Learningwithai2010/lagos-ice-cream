@@ -66,11 +66,12 @@ const container = {
 }
 
 const cardAnim = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 52, scale: 0.95 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
   },
 }
 
@@ -89,7 +90,7 @@ export default function Testimonials() {
         sizes="100vw"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-slate-50/94 backdrop-blur-[2px]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-cream-100/94 backdrop-blur-[2px]" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Header */}
@@ -102,13 +103,13 @@ export default function Testimonials() {
         >
           <div>
             <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-6 h-px bg-teal-500" aria-hidden="true" />
-              <span className="font-body text-xs font-semibold tracking-widest uppercase text-teal-600">
+              <div className="w-6 h-px bg-raspberry-500" aria-hidden="true" />
+              <span className="font-body text-xs font-semibold tracking-widest uppercase text-raspberry-500">
                 What Locals Say
               </span>
             </div>
             <h2
-              className="font-display font-bold text-slate-900 leading-tight"
+              className="font-display font-bold text-ink leading-tight"
               style={{ fontSize: 'clamp(1.875rem, 4.5vw, 3rem)', lineHeight: 1.1 }}
             >
               Straight from the
@@ -118,14 +119,14 @@ export default function Testimonials() {
           </div>
 
           {/* Google badge */}
-          <div className="flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-3 shadow-card self-start md:self-auto">
+          <div className="flex items-center gap-3 bg-white border border-stone-border rounded-2xl px-5 py-3 shadow-card self-start md:self-auto">
             <GoogleIcon />
             <div>
-              <p className="font-body text-xs text-slate-500 leading-none mb-0.5">Reviews from</p>
-              <p className="font-body text-sm font-semibold text-slate-800 leading-none">Google</p>
+              <p className="font-body text-xs text-stone-warm leading-none mb-0.5">Reviews from</p>
+              <p className="font-body text-sm font-semibold text-ink leading-none">Google</p>
             </div>
-            <div className="ml-2 pl-3 border-l border-slate-200">
-              <p className="font-display text-xl font-bold text-slate-900 leading-none">4.9</p>
+            <div className="ml-2 pl-3 border-l border-stone-border">
+              <p className="font-display text-xl font-bold text-ink leading-none">4.9</p>
               <div className="flex gap-0.5 mt-0.5" aria-label="4.9 stars" role="img">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <svg key={i} className="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -148,19 +149,19 @@ export default function Testimonials() {
             <motion.article
               key={review.name}
               variants={cardAnim}
-              className="bg-white rounded-2xl p-7 border border-slate-200 shadow-card flex flex-col gap-4 hover:shadow-card-hover hover:border-slate-300 transition-all duration-200"
+              className="bg-white rounded-2xl p-7 border border-stone-border shadow-card flex flex-col gap-4 hover:shadow-card-hover hover:border-raspberry-200 transition-all duration-200"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-raspberry-400 to-raspberry-600 flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
                     aria-hidden="true"
                   >
                     {review.initial}
                   </div>
                   <div>
-                    <p className="font-body font-semibold text-slate-900 text-sm leading-tight">{review.name}</p>
-                    <p className="font-body text-xs text-slate-400 mt-0.5">{review.location}</p>
+                    <p className="font-body font-semibold text-ink text-sm leading-tight">{review.name}</p>
+                    <p className="font-body text-xs text-stone-light mt-0.5">{review.location}</p>
                   </div>
                 </div>
                 <GoogleIcon />
@@ -168,11 +169,11 @@ export default function Testimonials() {
 
               <Stars count={review.rating} />
 
-              <p className="font-body text-slate-600 text-sm leading-relaxed flex-1">
+              <p className="font-body text-ink-light text-sm leading-relaxed flex-1">
                 &ldquo;{review.text}&rdquo;
               </p>
 
-              <p className="font-body text-xs text-slate-400 border-t border-slate-100 pt-3">
+              <p className="font-body text-xs text-stone-light border-t border-stone-border/50 pt-3">
                 <time>{review.date}</time>
               </p>
             </motion.article>

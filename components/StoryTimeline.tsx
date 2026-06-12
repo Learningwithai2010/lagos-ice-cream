@@ -1,3 +1,7 @@
+'use client'
+
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import timelineData from '../data/timeline.json'
 import { Trophy, Star, Medal, Newspaper, IceCream2 } from 'lucide-react'
 
@@ -11,6 +15,9 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 }
 
 export default function StoryTimeline() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+
   return (
     <section className="section-pad bg-cream-200 overflow-hidden">
       <div className="container-tight">
@@ -29,12 +36,15 @@ export default function StoryTimeline() {
           {/* Horizontal line (desktop) */}
           <div className="hidden md:block absolute top-8 left-0 right-0 h-px bg-raspberry-200" />
 
-          <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 md:pb-0 md:grid md:grid-cols-4 lg:grid-cols-6">
+          <div ref={sectionRef} className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 md:pb-0 md:grid md:grid-cols-4 lg:grid-cols-6">
             {timelineData.map((item, i) => {
               const Icon = ICON_MAP[item.icon] || Star
               return (
-                <div
+                <motion.div
                   key={i}
+                  initial={{ opacity: 0, y: 48, scale: 0.94 }}
+                  animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                   className={`flex-shrink-0 w-56 md:w-auto relative ${
                     item.highlight ? 'md:col-span-1' : 'md:col-span-1'
                   }`}
@@ -65,7 +75,7 @@ export default function StoryTimeline() {
                       </p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )
             })}
           </div>

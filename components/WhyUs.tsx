@@ -61,13 +61,13 @@ export default function WhyUs() {
     <section
       id="why-us"
       className="relative overflow-hidden py-24 md:py-32"
-      style={{ background: 'linear-gradient(160deg, #0F2027 0%, #0a1a22 60%, #0d2030 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #0D1A2F 0%, #111D35 60%, #0D1830 100%)' }}
     >
       {/* Ambient teal glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(13,148,136,0.07) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(46,80,144,0.12) 0%, transparent 70%)',
         }}
         aria-hidden="true"
       />
@@ -82,8 +82,8 @@ export default function WhyUs() {
           className="mb-16"
         >
           <div className="inline-flex items-center gap-3 mb-5">
-            <div className="w-6 h-px bg-teal-500/60" aria-hidden="true" />
-            <span className="font-body text-[11px] font-bold tracking-[0.18em] uppercase text-teal-400">
+            <div className="w-6 h-px bg-raspberry-400/60" aria-hidden="true" />
+            <span className="font-body text-[11px] font-bold tracking-[0.18em] uppercase text-raspberry-300">
               The Lago&apos;s Difference
             </span>
           </div>
@@ -92,7 +92,7 @@ export default function WhyUs() {
             style={{ fontSize: 'clamp(1.875rem, 4.5vw, 3rem)', lineHeight: 1.1 }}
           >
             Why People Keep{' '}
-            <span className="text-teal-400">Coming Back.</span>
+            <span className="text-[#4A90E2]">Coming Back.</span>
           </h2>
         </motion.div>
 
@@ -103,26 +103,26 @@ export default function WhyUs() {
             {differentiators.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 32 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                 transition={{
-                  duration: 0.6,
+                  duration: 0.65,
                   delay: i * 0.14,
                   ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
                 }}
-                className="group relative rounded-2xl border border-white/[0.07] p-7 bg-white/[0.04] hover:bg-white/[0.07] hover:border-teal-500/25 transition-all duration-200"
+                className="group relative rounded-2xl border border-white/[0.07] p-7 bg-white/[0.04] hover:bg-white/[0.07] hover:border-raspberry-400/25 transition-all duration-200"
               >
-                <div className="w-12 h-12 rounded-xl bg-teal-600/15 border border-teal-500/20 flex items-center justify-center text-teal-400 mb-5 group-hover:bg-teal-600/25 transition-colors duration-200">
+                <div className="w-12 h-12 rounded-xl bg-raspberry-500/15 border border-raspberry-400/20 flex items-center justify-center text-raspberry-300 mb-5 group-hover:bg-raspberry-500/25 transition-colors duration-200">
                   {item.icon}
                 </div>
                 <h3 className="font-display text-xl font-bold text-white mb-3 leading-snug">
                   {item.title}
                 </h3>
                 <div
-                  className="w-8 h-px bg-teal-500/40 mb-4 group-hover:w-12 transition-all duration-300"
+                  className="w-8 h-px bg-raspberry-400/40 mb-4 group-hover:w-12 transition-all duration-300"
                   aria-hidden="true"
                 />
-                <p className="font-body text-slate-300 leading-relaxed text-sm">
+                <p className="font-body text-white/70 leading-relaxed text-sm">
                   {item.body}
                 </p>
               </motion.div>
@@ -144,7 +144,7 @@ export default function WhyUs() {
               sizes="(max-width: 1024px) 100vw, 25vw"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-navy/65 via-transparent to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-ink/65 via-transparent to-transparent"
               aria-hidden="true"
             />
             <div className="absolute bottom-4 left-4 right-4">
@@ -170,7 +170,7 @@ export default function WhyUs() {
           </p>
           <a
             href="#find-us"
-            className="flex-shrink-0 inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold font-body text-sm px-7 py-3.5 rounded-full transition-colors duration-150 shadow-teal"
+            className="flex-shrink-0 inline-flex items-center gap-2 bg-raspberry-500 hover:bg-raspberry-400 text-white font-semibold font-body text-sm px-7 py-3.5 rounded-full transition-colors duration-150 shadow-raspberry"
           >
             Find Us
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">

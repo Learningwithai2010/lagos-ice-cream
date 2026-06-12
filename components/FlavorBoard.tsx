@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { RefreshCw, IceCream2 } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import Link from 'next/link'
+import { motion, useInView } from 'framer-motion'
 
 type Flavor = typeof allFlavors[0]
 
@@ -27,11 +28,26 @@ const EMOJI_MAP: Record<string, string> = {
   blue: '🫐', orange: '🍊', tan: '🥐',
 }
 
+const gridVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 36, scale: 0.96 },
+  show: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+}
+
 export default function FlavorBoard() {
   const [activeFlavors, setActiveFlavors] = useState<string[] | null>(null)
   const [updatedAt, setUpdatedAt] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [tick, setTick] = useState(0)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(gridRef, { once: true, margin: '-60px' })
 
   const fetchBoard = useCallback(async () => {
     try {
@@ -55,12 +71,16 @@ export default function FlavorBoard() {
     return () => clearInterval(timer)
   }, [])
 
-  const displayFlavors: Flavor[] = activeFlavors
-    ? allFlavors.filter((f) => activeFlavors.includes(f.id))
-    : [
-        ...allFlavors.filter((f) => f.featured),
-        ...allFlavors.filter((f) => !f.featured).slice(0, 6),
-      ]
+  const defaultFlavors: Flavor[] = [
+    ...allFlavors.filter((f) => f.featured),
+    ...allFlavors.filter((f) => !f.featured).slice(0, 10),
+  ]
+
+  // Guard: treat empty array same as null so the board is never blank
+  const displayFlavors: Flavor[] =
+    activeFlavors && activeFlavors.length > 0
+      ? allFlavors.filter((f) => activeFlavors.includes(f.id))
+      : defaultFlavors
 
   const formatTime = (iso: string) => {
     try {
@@ -103,10 +123,17 @@ export default function FlavorBoard() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <motion.div
+            ref={gridRef}
+            variants={gridVariants}
+            initial="hidden"
+            animate={isInView ? 'show' : 'hidden'}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          >
             {displayFlavors.map((flavor) => (
-              <div
+              <motion.div
                 key={flavor.id}
+                variants={cardVariants}
                 className={`flex flex-col items-start p-4 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card ${
                   COLOR_MAP[flavor.colorHint] || 'bg-cream-100 border-stone-border'
                 }`}
@@ -123,9 +150,9 @@ export default function FlavorBoard() {
                     Dairy Free
                   </span>
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
