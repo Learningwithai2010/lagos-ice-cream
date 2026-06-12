@@ -180,7 +180,10 @@ export default function Hero() {
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-cream-100/97 via-cream-100/85 to-cream-100/30" />
+        {/* Mobile: solid warm wash so text is never obscured by the image */}
+        <div className="absolute inset-0 bg-cream-100/90 md:hidden" />
+        {/* Desktop: horizontal gradient — strong left, fades to transparent right */}
+        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-cream-100/97 via-cream-100/85 to-cream-100/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-cream-100/60 via-transparent to-transparent" />
       </div>
 
@@ -209,11 +212,9 @@ export default function Hero() {
               transition: { type: 'spring', stiffness: 210, damping: 20, delay: 0.1 },
             }}
             exit={{
-              x: '32vw',
-              y: '-8vh',
-              scale: 0.28,
               opacity: 0,
-              transition: { type: 'spring', stiffness: 130, damping: 20 },
+              scale: 0.82,
+              transition: { duration: 0.55, ease: 'easeInOut' },
             }}
           >
             <div className="w-[min(40vh,240px)] drop-shadow-2xl">

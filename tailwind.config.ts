@@ -10,15 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         cream: {
-          DEFAULT: '#FFFBEF',
-          50: '#FFFDF7',
-          100: '#FFFBEF',
-          200: '#FFF5D6',
-          300: '#FCECC0',
+          DEFAULT: '#FFFAF5',
+          50: '#FEFCF8',
+          100: '#FFFAF5',
+          200: '#FFF0F7',
+          300: '#FFE0EE',
         },
         ink: {
-          DEFAULT: '#1C1917',
-          light: '#44403C',
+          DEFAULT: '#1B2D4D',
+          light: '#3D5070',
         },
         stone: {
           warm: '#78716C',
@@ -26,17 +26,30 @@ const config: Config = {
           border: '#E7E0D0',
         },
         raspberry: {
-          DEFAULT: '#8B2F82',
-          50: '#F9F0F8',
-          100: '#F0D6EE',
-          200: '#D9A0D4',
-          300: '#BE6AB7',
-          400: '#A6449E',
-          500: '#8B2F82',
-          600: '#7A2872',
-          700: '#641F5E',
-          800: '#4E1849',
-          900: '#38112F',
+          DEFAULT: '#2E5090',   /* Primary Blue */
+          50:  '#EEF3FA',
+          100: '#CFDAEF',
+          200: '#A0B5DF',
+          300: '#7091CF',
+          400: '#4A90E2',       /* Secondary Blue — hover states, links */
+          500: '#2E5090',       /* Primary Blue — CTAs, nav accents */
+          600: '#264480',
+          700: '#1E3870',
+          800: '#162B56',
+          900: '#0E1E3C',
+        },
+        pink: {
+          DEFAULT: '#E8B4D0',   /* Accent Pink — secondary CTAs, badges */
+          wash:  '#FFF0F7',
+          50:    '#FFF0F7',
+          100:   '#F9D6EB',
+          200:   '#EFAED3',
+          300:   '#E07CB8',
+        },
+        gold: {
+          DEFAULT: '#D4A574',   /* Gold/Bronze — award wall, cone details */
+          light:   '#EDD5B0',
+          dark:    '#B8883A',
         },
         amber: {
           warm: '#D97706',
@@ -69,16 +82,16 @@ const config: Config = {
         '4xl': '2rem',
       },
       boxShadow: {
-        'card': '0 1px 3px rgba(28,25,23,0.04), 0 4px 12px rgba(28,25,23,0.06)',
-        'card-hover': '0 4px 8px rgba(28,25,23,0.06), 0 16px 32px rgba(28,25,23,0.1)',
-        'raspberry': '0 8px 24px rgba(139,47,130,0.25)',
-        'raspberry-lg': '0 16px 48px rgba(139,47,130,0.2)',
-        'warm': '0 4px 16px rgba(217,119,6,0.2)',
+        'card': '0 1px 3px rgba(27,45,77,0.04), 0 4px 12px rgba(27,45,77,0.06)',
+        'card-hover': '0 4px 8px rgba(27,45,77,0.06), 0 16px 32px rgba(27,45,77,0.1)',
+        'raspberry': '0 8px 24px rgba(46,80,144,0.25)',
+        'raspberry-lg': '0 16px 48px rgba(46,80,144,0.2)',
+        'warm': '0 4px 16px rgba(212,165,116,0.3)',
       },
       backgroundImage: {
-        'hero-warm': 'linear-gradient(160deg, #FFFBEF 0%, #FFF5D6 50%, #FCECC0 100%)',
-        'raspberry-gradient': 'linear-gradient(135deg, #8B2F82 0%, #641F5E 100%)',
-        'warm-gradient': 'linear-gradient(135deg, #FFFBEF 0%, #FFF5D6 100%)',
+        'hero-warm': 'linear-gradient(160deg, #FFFAF5 0%, #FFF0F7 50%, #FFE0EE 100%)',
+        'raspberry-gradient': 'linear-gradient(135deg, #2E5090 0%, #1E3870 100%)',
+        'warm-gradient': 'linear-gradient(135deg, #FFFAF5 0%, #FFF0F7 100%)',
       },
       animation: {
         'fade-up': 'fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
