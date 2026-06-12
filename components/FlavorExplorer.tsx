@@ -1,28 +1,29 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import clsx from 'clsx'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 type Flavor = typeof allFlavors[0]
 
 const ALLERGEN_FILTERS = [
-  { key: 'no-gluten', label: 'Gluten Free', allergen: 'gluten' },
-  { key: 'no-nuts', label: 'Nut Free', allergen: 'nuts' },
-  { key: 'no-peanuts', label: 'Peanut Free', allergen: 'peanuts' },
-  { key: 'no-soy', label: 'Soy Free', allergen: 'soy' },
-  { key: 'no-egg', label: 'Egg Free', allergen: 'egg' },
-  { key: 'no-coconut', label: 'Coconut Free', allergen: 'coconut' },
+  { key: 'no-gluten',   label: 'Gluten Free',  allergen: 'gluten' },
+  { key: 'no-nuts',     label: 'Nut Free',     allergen: 'nuts' },
+  { key: 'no-peanuts',  label: 'Peanut Free',  allergen: 'peanuts' },
+  { key: 'no-soy',      label: 'Soy Free',     allergen: 'soy' },
+  { key: 'no-egg',      label: 'Egg Free',     allergen: 'egg' },
+  { key: 'no-coconut',  label: 'Coconut Free', allergen: 'coconut' },
 ]
 
 const CATEGORY_FILTERS = [
-  { key: 'originals', label: "Lago's Originals" },
-  { key: 'dairy-free', label: 'Dairy Free' },
-  { key: 'no-sugar-added', label: 'No Sugar Added' },
-  { key: 'yogurt', label: 'Yogurt' },
-  { key: 'sherbet', label: 'Sherbet' },
-  { key: 'half-gallon', label: 'Sold in Half Gallons' },
+  { key: 'originals',       label: "Lago's Originals" },
+  { key: 'dairy-free',      label: 'Dairy Free' },
+  { key: 'no-sugar-added',  label: 'No Sugar Added' },
+  { key: 'yogurt',          label: 'Yogurt' },
+  { key: 'sherbet',         label: 'Sherbet' },
+  { key: 'half-gallon',     label: 'Sold in Half Gallons' },
 ]
 
 const COLOR_MAP: Record<string, string> = {
@@ -31,12 +32,35 @@ const COLOR_MAP: Record<string, string> = {
   blue: '#2563EB', orange: '#EA580C', tan: '#A16207',
 }
 
+const sectionVars = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+}
+
+const fadeUpVars = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+}
+
+const gridVars = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+}
+
 function FlavorCard({ flavor }: { flavor: Flavor }) {
   const [expanded, setExpanded] = useState(false)
-  const accent = COLOR_MAP[flavor.colorHint] || '#8B2F82'
+  const accent = COLOR_MAP[flavor.colorHint] || '#2E5090'
 
   return (
-    <div className="card-base p-5 flex flex-col gap-3 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-250">
+    <div className="card-base p-5 flex flex-col gap-3 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-200">
       {/* Color bar */}
       <div className="h-1 rounded-full w-12" style={{ backgroundColor: accent }} />
 
@@ -102,6 +126,9 @@ export default function FlavorExplorer() {
   const [allergenFilters, setAllergenFilters] = useState<Set<string>>(new Set())
   const [categoryFilters, setCategoryFilters] = useState<Set<string>>(new Set())
 
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView   = useInView(sectionRef, { once: true, margin: '-60px' })
+
   const toggleAllergen = (key: string) => {
     setAllergenFilters((prev) => {
       const next = new Set(prev)
@@ -128,18 +155,15 @@ export default function FlavorExplorer() {
 
   const filtered = useMemo(() => {
     return allFlavors.filter((f) => {
-      // Search
       if (search && !f.name.toLowerCase().includes(search.toLowerCase()) &&
           !f.description.toLowerCase().includes(search.toLowerCase())) {
         return false
       }
-      // Allergen exclusions
       const allergenArr = Array.from(allergenFilters)
       for (let i = 0; i < allergenArr.length; i++) {
         const af = ALLERGEN_FILTERS.find((a) => a.key === allergenArr[i])
         if (af && f.allergens.some((a) => a.toLowerCase().includes(af.allergen))) return false
       }
-      // Category inclusions
       if (categoryFilters.size > 0) {
         const catArr = Array.from(categoryFilters)
         let match = false
@@ -156,119 +180,143 @@ export default function FlavorExplorer() {
   }, [search, allergenFilters, categoryFilters])
 
   return (
-    <section className="section-pad bg-cream-200">
+    <section ref={sectionRef} className="section-pad bg-cream-200">
       <div className="container-wide">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <p className="section-label">50+ Homemade Flavors</p>
-          <h2 className="font-display text-display-md font-bold text-ink mb-3">
-            Find Your Perfect Scoop
-          </h2>
-          <p className="text-stone-warm max-w-lg mx-auto">
-            Search by name or filter by allergen-free and dietary category. Perfect for
-            allergy families.
-          </p>
-        </div>
 
-        {/* Search + filters */}
-        <div className="bg-white rounded-3xl shadow-card p-5 md:p-6 mb-8 border border-stone-border/50">
-          {/* Search */}
-          <div className="relative mb-5">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-light" />
-            <input
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search flavors (e.g. &quot;coffee&quot;, &quot;oreo&quot;, &quot;caramel&quot;)..."
-              className="w-full pl-10 pr-10 py-3 rounded-2xl border border-stone-border bg-cream-100 text-ink placeholder:text-stone-light text-sm focus:outline-none focus:ring-2 focus:ring-raspberry-300 focus:border-raspberry-300 transition-colors"
-            />
-            {search && (
-              <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-stone-100 transition-colors">
-                <X className="w-3 h-3 text-stone-warm" />
-              </button>
-            )}
-          </div>
-
-          {/* Allergen filters */}
-          <div className="mb-4">
-            <p className="text-xs font-semibold text-stone-warm uppercase tracking-wider mb-2">
-              Allergen Free — show only
+        <motion.div
+          variants={sectionVars}
+          initial="hidden"
+          animate={isInView ? 'show' : 'hidden'}
+        >
+          {/* Header */}
+          <motion.div variants={fadeUpVars} className="text-center mb-10">
+            <p className="section-label">50+ Homemade Flavors</p>
+            <h2 className="font-display text-display-md font-bold text-ink mb-3">
+              Find Your Perfect Scoop
+            </h2>
+            <p className="text-stone-warm max-w-lg mx-auto">
+              Search by name or filter by allergen-free and dietary category. Perfect for
+              allergy families.
             </p>
-            <div className="flex flex-wrap gap-2">
-              {ALLERGEN_FILTERS.map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => toggleAllergen(key)}
-                  className={clsx(
-                    'filter-pill',
-                    allergenFilters.has(key) ? 'filter-pill-active' : 'filter-pill-inactive'
-                  )}
-                >
-                  {allergenFilters.has(key) && <span className="mr-1">✓</span>}
-                  {label}
+          </motion.div>
+
+          {/* Search + filters */}
+          <motion.div variants={fadeUpVars} className="bg-white rounded-3xl shadow-card p-5 md:p-6 mb-8 border border-stone-border/50">
+            <div className="relative mb-5">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-light" />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search flavors (e.g. &quot;coffee&quot;, &quot;oreo&quot;, &quot;caramel&quot;)..."
+                className="w-full pl-10 pr-10 py-3 rounded-2xl border border-stone-border bg-cream-100 text-ink placeholder:text-stone-light text-sm focus:outline-none focus:ring-2 focus:ring-raspberry-300 focus:border-raspberry-300 transition-colors"
+              />
+              {search && (
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-stone-100 transition-colors">
+                  <X className="w-3 h-3 text-stone-warm" />
                 </button>
-              ))}
+              )}
             </div>
-          </div>
 
-          {/* Category filters */}
-          <div>
-            <p className="text-xs font-semibold text-stone-warm uppercase tracking-wider mb-2">
-              Category
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {CATEGORY_FILTERS.map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => toggleCategory(key)}
-                  className={clsx(
-                    'filter-pill',
-                    categoryFilters.has(key) ? 'filter-pill-active' : 'filter-pill-inactive'
-                  )}
-                >
-                  {categoryFilters.has(key) && <span className="mr-1">✓</span>}
-                  {label}
+            {/* Allergen filters */}
+            <div className="mb-4">
+              <p className="text-xs font-semibold text-stone-warm uppercase tracking-wider mb-2">
+                Allergen Free — show only
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {ALLERGEN_FILTERS.map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => toggleAllergen(key)}
+                    className={clsx(
+                      'filter-pill',
+                      allergenFilters.has(key) ? 'filter-pill-active' : 'filter-pill-inactive'
+                    )}
+                  >
+                    {allergenFilters.has(key) && <span className="mr-1">✓</span>}
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Category filters */}
+            <div>
+              <p className="text-xs font-semibold text-stone-warm uppercase tracking-wider mb-2">
+                Category
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {CATEGORY_FILTERS.map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => toggleCategory(key)}
+                    className={clsx(
+                      'filter-pill',
+                      categoryFilters.has(key) ? 'filter-pill-active' : 'filter-pill-inactive'
+                    )}
+                  >
+                    {categoryFilters.has(key) && <span className="mr-1">✓</span>}
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Clear + count */}
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-border/50">
+              <p className="text-sm text-stone-warm">
+                <span className="font-semibold text-ink">{filtered.length}</span> flavor{filtered.length !== 1 ? 's' : ''} found
+              </p>
+              {hasFilters && (
+                <button onClick={clearAll} className="text-xs text-raspberry-500 hover:text-raspberry-700 font-medium flex items-center gap-1">
+                  <X className="w-3 h-3" /> Clear all filters
                 </button>
-              ))}
+              )}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Clear + count */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-border/50">
-            <p className="text-sm text-stone-warm">
-              <span className="font-semibold text-ink">{filtered.length}</span> flavor{filtered.length !== 1 ? 's' : ''} found
-            </p>
-            {hasFilters && (
-              <button onClick={clearAll} className="text-xs text-raspberry-500 hover:text-raspberry-700 font-medium flex items-center gap-1">
-                <X className="w-3 h-3" /> Clear all filters
-              </button>
-            )}
-          </div>
-        </div>
+          {/* Flavor grid with AnimatePresence for empty state */}
+          <motion.div variants={gridVars}>
+            <AnimatePresence mode="wait">
+              {filtered.length === 0 ? (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-center py-20"
+                >
+                  <p className="text-4xl mb-4">🍦</p>
+                  <h3 className="font-display font-semibold text-xl text-ink mb-2">No flavors match</h3>
+                  <p className="text-stone-warm mb-4">Try removing some filters or adjusting your search.</p>
+                  <button onClick={clearAll} className="btn-secondary text-sm">
+                    Clear all filters
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="grid"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                >
+                  {filtered.map((flavor) => (
+                    <FlavorCard key={flavor.id} flavor={flavor} />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
-        {/* Flavor grid */}
-        {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-4xl mb-4">🍦</p>
-            <h3 className="font-display font-semibold text-xl text-ink mb-2">No flavors match</h3>
-            <p className="text-stone-warm mb-4">Try removing some filters or adjusting your search.</p>
-            <button onClick={clearAll} className="btn-secondary text-sm">
-              Clear all filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filtered.map((flavor) => (
-              <FlavorCard key={flavor.id} flavor={flavor} />
-            ))}
-          </div>
-        )}
-
-        {/* Allergen disclaimer */}
-        <p className="text-xs text-stone-light text-center mt-8 max-w-xl mx-auto">
-          Allergen information is provided in good faith. Cross-contamination is possible. Please
-          confirm with our staff before ordering if you have severe allergies.
-        </p>
+          {/* Allergen disclaimer */}
+          <motion.p variants={fadeUpVars} className="text-xs text-stone-light text-center mt-8 max-w-xl mx-auto">
+            Allergen information is provided in good faith. Cross-contamination is possible. Please
+            confirm with our staff before ordering if you have severe allergies.
+          </motion.p>
+        </motion.div>
       </div>
     </section>
   )
