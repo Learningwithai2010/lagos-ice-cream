@@ -46,8 +46,8 @@ export default function FlavorBoard() {
   const [updatedAt, setUpdatedAt] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [tick, setTick] = useState(0)
-  const gridRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(gridRef, { once: true, margin: '-60px' })
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   const fetchBoard = useCallback(async () => {
     try {
@@ -91,7 +91,7 @@ export default function FlavorBoard() {
   }
 
   return (
-    <section id="scooping-today" className="section-pad bg-white">
+    <section ref={sectionRef} id="scooping-today" className="section-pad bg-white">
       <div className="container-tight">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
@@ -124,7 +124,6 @@ export default function FlavorBoard() {
           </div>
         ) : (
           <motion.div
-            ref={gridRef}
             variants={gridVariants}
             initial="hidden"
             animate={isInView ? 'show' : 'hidden'}

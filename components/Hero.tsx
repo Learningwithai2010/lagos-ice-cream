@@ -180,10 +180,16 @@ export default function Hero() {
           priority
           unoptimized
         />
-        {/* Mobile: solid warm wash so text is never obscured by the image */}
-        <div className="absolute inset-0 bg-cream-100/90 md:hidden" />
-        {/* Desktop: horizontal gradient — strong left, fades to transparent right */}
-        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-cream-100/97 via-cream-100/85 to-cream-100/30" />
+        {/* Mobile: solid warm wash so the image never bleeds through text */}
+        <div className="absolute inset-0 bg-cream-100/92 md:hidden" />
+        {/* Desktop: 97 % opaque for the full text column, fades only on the far right */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(255,250,245,0.98) 0%, rgba(255,250,245,0.97) 52%, rgba(255,250,245,0.70) 70%, rgba(255,250,245,0.10) 88%)',
+          }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-cream-100/60 via-transparent to-transparent" />
       </div>
 
