@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import clsx from 'clsx'
@@ -130,6 +130,24 @@ export default function FlavorExplorer() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView   = useInView(sectionRef, { once: true, margin: '-60px' })
 
+  // Let the concierge chat (or any UI) pre-apply a filter via a window event.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { filterType, filterKey } = (e as CustomEvent).detail || {}
+      if (!filterKey) return
+      if (filterType === 'allergen') {
+        setAllergenFilters(new Set([filterKey]))
+        setCategoryFilters(new Set())
+      } else if (filterType === 'category') {
+        setCategoryFilters(new Set([filterKey]))
+        setAllergenFilters(new Set())
+      }
+      setSearch('')
+    }
+    window.addEventListener('lago:filter', handler)
+    return () => window.removeEventListener('lago:filter', handler)
+  }, [])
+
   const toggleAllergen = (key: string) => {
     setAllergenFilters((prev) => {
       const next = new Set(prev)
@@ -181,7 +199,7 @@ export default function FlavorExplorer() {
   }, [search, allergenFilters, categoryFilters])
 
   return (
-    <section ref={sectionRef} className="section-pad bg-cream-200">
+    <section id="flavor-explorer" ref={sectionRef} className="section-pad bg-cream-200">
       <div className="container-wide">
 
         <motion.div

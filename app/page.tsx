@@ -9,6 +9,7 @@ import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
 import CateringForm from '@/components/CateringForm'
 import SMSAlerts from '@/components/SMSAlerts'
+import Testimonials from '@/components/Testimonials'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -74,6 +75,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <Testimonials />
 
         {/* Catering form */}
         <section id="catering" className="section-pad bg-white">

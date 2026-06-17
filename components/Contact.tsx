@@ -57,10 +57,10 @@ export default function Contact() {
   }
 
   const inputClass =
-    'w-full font-body text-slate-800 placeholder:text-slate-400 text-sm bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none transition-all duration-150 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 hover:border-slate-300'
+    'w-full font-body text-ink placeholder:text-stone-light text-sm bg-white border border-stone-border rounded-xl px-4 py-3 outline-none transition-all duration-150 focus:border-raspberry-500 focus:ring-2 focus:ring-raspberry-100 hover:border-stone-warm'
 
   return (
-    <section id="find-us" className="py-24 md:py-32 bg-cream">
+    <section id="find-us" className="py-24 md:py-32 bg-cream-100">
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -71,19 +71,19 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-8 h-px bg-teal-500/50" aria-hidden="true" />
-            <span className="font-body text-xs font-semibold tracking-widest uppercase text-teal-600">
+            <div className="w-8 h-px bg-raspberry-500/50" aria-hidden="true" />
+            <span className="font-body text-xs font-semibold tracking-widest uppercase text-raspberry-500">
               Find Us
             </span>
-            <div className="w-8 h-px bg-teal-500/50" aria-hidden="true" />
+            <div className="w-8 h-px bg-raspberry-500/50" aria-hidden="true" />
           </div>
           <h2
-            className="font-display font-bold text-slate-900"
+            className="font-display font-bold text-ink"
             style={{ fontSize: 'clamp(1.875rem, 4.5vw, 3rem)', lineHeight: 1.1 }}
           >
             Come Find a Cone.
           </h2>
-          <p className="font-body text-slate-500 mt-3 text-base max-w-md mx-auto leading-relaxed">
+          <p className="font-body text-ink-light mt-3 text-base max-w-md mx-auto leading-relaxed">
             We&apos;re on Lafayette Road, a short walk from the beach. You&apos;ll smell the waffle cones before you see us.
           </p>
         </motion.div>
@@ -103,7 +103,7 @@ export default function Contact() {
             sizes="(max-width: 1200px) 100vw, 1152px"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-r from-navy/60 via-transparent to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-ink/60 via-transparent to-transparent"
             aria-hidden="true"
           />
           <div className="absolute bottom-6 left-8 z-10">
@@ -124,28 +124,28 @@ export default function Contact() {
           >
             {/* Phone */}
             <div>
-              <p className="font-body text-xs font-semibold tracking-widest uppercase text-slate-400 mb-2">Call Us</p>
+              <p className="font-body text-xs font-semibold tracking-widest uppercase text-stone-light mb-2">Call Us</p>
               <a
                 href="tel:+16039649880"
-                className="font-display text-4xl md:text-5xl font-bold text-teal-600 hover:text-teal-500 transition-colors duration-150"
+                className="font-display text-4xl md:text-5xl font-bold text-raspberry-500 hover:text-raspberry-400 transition-colors duration-150"
               >
                 (603) 964-9880
               </a>
-              <p className="font-body text-sm text-slate-400 mt-1">Tap to call — we love hearing from you.</p>
+              <p className="font-body text-sm text-stone-warm mt-1">Tap to call — we love hearing from you.</p>
             </div>
 
             {/* Address */}
             <div>
-              <p className="font-body text-xs font-semibold tracking-widest uppercase text-slate-400 mb-2">Address</p>
+              <p className="font-body text-xs font-semibold tracking-widest uppercase text-stone-light mb-2">Address</p>
               <address className="not-italic">
-                <p className="font-body text-lg font-semibold text-slate-800">71 Lafayette Road</p>
-                <p className="font-body text-lg text-slate-600">Rye, NH 03870</p>
+                <p className="font-body text-lg font-semibold text-ink">71 Lafayette Road</p>
+                <p className="font-body text-lg text-ink-light">Rye, NH 03870</p>
               </address>
               <a
                 href="https://maps.google.com/?q=71+Lafayette+Rd+Rye+NH+03870"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-teal-600 hover:text-teal-500 transition-colors duration-150"
+                className="inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-raspberry-500 hover:text-raspberry-400 transition-colors duration-150"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -156,20 +156,20 @@ export default function Contact() {
 
             {/* Hours */}
             <div>
-              <p className="font-body text-xs font-semibold tracking-widest uppercase text-slate-400 mb-3">Summer Hours</p>
-              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-card">
-                <div className="bg-teal-600 px-5 py-3 flex items-center gap-2">
+              <p className="font-body text-xs font-semibold tracking-widest uppercase text-stone-light mb-3">Summer Hours</p>
+              <div className="bg-white border border-stone-border rounded-2xl overflow-hidden shadow-card">
+                <div className="bg-raspberry-500 px-5 py-3 flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true" />
                   <span className="font-body text-sm font-semibold text-white">Open Today</span>
                 </div>
                 {hours.map(({ days, time }) => (
                   <div key={days} className="px-5 py-4 flex items-center justify-between">
-                    <span className="font-body text-sm font-semibold text-slate-700">{days}</span>
-                    <span className="font-body text-sm text-slate-500">{time}</span>
+                    <span className="font-body text-sm font-semibold text-ink">{days}</span>
+                    <span className="font-body text-sm text-ink-light">{time}</span>
                   </div>
                 ))}
                 <div className="px-5 pb-4">
-                  <p className="font-body text-xs text-slate-400 italic">
+                  <p className="font-body text-xs text-stone-light italic">
                     Hours may vary — follow us on Instagram for real-time updates.
                   </p>
                 </div>
@@ -183,32 +183,32 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-card">
-              <h3 className="font-display text-2xl font-bold text-slate-900 mb-1">Send a Message</h3>
-              <p className="font-body text-sm text-slate-500 mb-7">
-                Questions about custom cakes, catering, or just saying hello — we&apos;d love to hear from you.
+            <div className="bg-white border border-stone-border rounded-3xl p-8 shadow-card">
+              <h3 className="font-display text-2xl font-bold text-ink mb-1">Send a Message</h3>
+              <p className="font-body text-sm text-ink-light mb-7">
+                Questions about catering, your next party, or just saying hello — we&apos;d love to hear from you.
               </p>
 
               {status === 'success' ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl bg-teal-50 border border-teal-200 p-6 text-center"
+                  className="rounded-2xl bg-raspberry-50 border border-raspberry-200 p-6 text-center"
                   role="alert"
                 >
                   <div
-                    className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mx-auto mb-3"
+                    className="w-12 h-12 rounded-full bg-raspberry-100 flex items-center justify-center mx-auto mb-3"
                     aria-hidden="true"
                   >
-                    <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-6 h-6 text-raspberry-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <p className="font-display text-lg font-bold text-teal-800 mb-1">Message Sent!</p>
-                  <p className="font-body text-sm text-teal-700">{apiMessage}</p>
+                  <p className="font-display text-lg font-bold text-raspberry-800 mb-1">Message Sent!</p>
+                  <p className="font-body text-sm text-raspberry-700">{apiMessage}</p>
                   <button
                     onClick={() => setStatus('idle')}
-                    className="mt-5 font-body text-sm font-medium text-teal-600 hover:text-teal-500 underline underline-offset-2 transition-colors"
+                    className="mt-5 font-body text-sm font-medium text-raspberry-500 hover:text-raspberry-400 underline underline-offset-2 transition-colors"
                   >
                     Send another message
                   </button>
@@ -217,7 +217,7 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="font-body text-xs font-semibold text-slate-600 block mb-1.5" htmlFor="name">
+                      <label className="font-body text-xs font-semibold text-ink-light block mb-1.5" htmlFor="name">
                         Name <span className="text-red-400" aria-hidden="true">*</span>
                       </label>
                       <input
@@ -233,7 +233,7 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="font-body text-xs font-semibold text-slate-600 block mb-1.5" htmlFor="email">
+                      <label className="font-body text-xs font-semibold text-ink-light block mb-1.5" htmlFor="email">
                         Email <span className="text-red-400" aria-hidden="true">*</span>
                       </label>
                       <input
@@ -251,7 +251,7 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="font-body text-xs font-semibold text-slate-600 block mb-1.5" htmlFor="message">
+                    <label className="font-body text-xs font-semibold text-ink-light block mb-1.5" htmlFor="message">
                       Message <span className="text-red-400" aria-hidden="true">*</span>
                     </label>
                     <textarea
@@ -278,7 +278,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold text-sm py-3.5 rounded-xl transition-colors duration-150 flex items-center justify-center gap-2 mt-1 cursor-pointer disabled:cursor-not-allowed"
+                    className="w-full bg-raspberry-500 hover:bg-raspberry-600 disabled:bg-raspberry-300 text-white font-semibold text-sm py-3.5 rounded-xl transition-colors duration-150 flex items-center justify-center gap-2 mt-1 cursor-pointer disabled:cursor-not-allowed"
                     aria-busy={status === 'loading'}
                   >
                     {status === 'loading' ? (

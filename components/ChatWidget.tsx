@@ -1,14 +1,52 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, IceCream2, ExternalLink } from 'lucide-react'
+import { MessageCircle, X, Send, IceCream2, ExternalLink, ArrowRight } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
+import { business } from '../lib/business-data'
 
-type Message = { role: 'user' | 'assistant'; content: string }
+/** An action the concierge can route the visitor to — the "does things" layer. */
+type ChatAction =
+  | { kind: 'catering'; label: string }
+  | { kind: 'filter'; label: string; filterType: 'allergen' | 'category'; filterKey: string }
+
+type Message = { role: 'user' | 'assistant'; content: string; action?: ChatAction }
 
 const MAX_SESSION_MESSAGES = 10
-const GOOGLE_REVIEW_URL =
-  'https://www.google.com/search?q=Lago%27s+Ice+Cream+Rye+NH+reviews'
+const GOOGLE_REVIEW_URL = business.links.googleReviews
+
+/** Detect intent from the visitor's message and map it to a concrete action. */
+function detectAction(message: string): ChatAction | undefined {
+  const q = message.toLowerCase()
+  if (q.match(/cater|party|parties|wedding|event|corporate|birthday/)) {
+    return { kind: 'catering', label: 'Plan your event →' }
+  }
+  if (q.match(/peanut/)) {
+    return { kind: 'filter', label: 'See peanut-free flavors →', filterType: 'allergen', filterKey: 'no-peanuts' }
+  }
+  if (q.match(/nut/)) {
+    return { kind: 'filter', label: 'See nut-free flavors →', filterType: 'allergen', filterKey: 'no-nuts' }
+  }
+  if (q.match(/gluten/)) {
+    return { kind: 'filter', label: 'See gluten-free flavors →', filterType: 'allergen', filterKey: 'no-gluten' }
+  }
+  if (q.match(/dairy|vegan|lactose/)) {
+    return { kind: 'filter', label: 'See dairy-free flavors →', filterType: 'category', filterKey: 'dairy-free' }
+  }
+  if (q.match(/soy/)) {
+    return { kind: 'filter', label: 'See soy-free flavors →', filterType: 'allergen', filterKey: 'no-soy' }
+  }
+  if (q.match(/egg/)) {
+    return { kind: 'filter', label: 'See egg-free flavors →', filterType: 'allergen', filterKey: 'no-egg' }
+  }
+  if (q.match(/sugar|diabet/)) {
+    return { kind: 'filter', label: 'See no-sugar-added flavors →', filterType: 'category', filterKey: 'no-sugar-added' }
+  }
+  if (q.match(/original|signature/)) {
+    return { kind: 'filter', label: "See Lago's Originals →", filterType: 'category', filterKey: 'originals' }
+  }
+  return undefined
+}
 
 function localFallback(message: string): string {
   const q = message.toLowerCase()
@@ -78,6 +116,8 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, { role: 'user', content: userMsg }])
     setSessionCount((c) => c + 1)
 
+    const action = detectAction(userMsg)
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -85,15 +125,34 @@ export default function ChatWidget() {
         body: JSON.stringify({ message: userMsg, sessionCount }),
       })
       const data = await res.json()
-      if (data.fallback || !res.ok) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: localFallback(userMsg) }])
-      } else {
-        setMessages((prev) => [...prev, { role: 'assistant', content: data.response }])
-      }
+      const content = data.fallback || !res.ok ? localFallback(userMsg) : data.response
+      setMessages((prev) => [...prev, { role: 'assistant', content, action }])
     } catch {
-      setMessages((prev) => [...prev, { role: 'assistant', content: localFallback(userMsg) }])
+      setMessages((prev) => [...prev, { role: 'assistant', content: localFallback(userMsg), action }])
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Route the visitor to the relevant part of the site — the "concierge does things" layer.
+  const runAction = (action: ChatAction) => {
+    setOpen(false)
+    if (action.kind === 'catering') {
+      window.location.hash = '#catering'
+      return
+    }
+    // Filter the explorer, then scroll to it. FlavorExplorer listens for this event.
+    window.dispatchEvent(
+      new CustomEvent('lago:filter', {
+        detail: { filterType: action.filterType, filterKey: action.filterKey },
+      })
+    )
+    const explorer = document.getElementById('flavor-explorer')
+    if (explorer) {
+      explorer.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      // Explorer isn't on this page (e.g. a sub-route) — take them to the flavors page.
+      window.location.href = `/flavors#flavor-explorer`
     }
   }
 
@@ -142,7 +201,7 @@ export default function ChatWidget() {
         {/* Messages */}
         <div className="h-72 overflow-y-auto p-4 flex flex-col gap-3 bg-cream-100/40">
           {messages.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
               <div className={`max-w-[86%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                 msg.role === 'user'
                   ? 'bg-raspberry-500 text-white rounded-br-sm'
@@ -150,6 +209,15 @@ export default function ChatWidget() {
               }`}>
                 {msg.content}
               </div>
+              {msg.action && (
+                <button
+                  onClick={() => runAction(msg.action!)}
+                  className="mt-2 inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-raspberry-500 text-white text-xs font-semibold hover:bg-raspberry-600 transition-colors shadow-sm"
+                >
+                  {msg.action.label}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           ))}
 

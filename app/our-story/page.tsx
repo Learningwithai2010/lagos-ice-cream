@@ -52,7 +52,7 @@ export default function OurStoryPage() {
                 </p>
                 <p className="text-stone-warm leading-relaxed mt-4">
                   Andrea met Steve Grenier, and together they became passionate about perfecting
-                  every batch. In 1986, Steve and Andrea attended the prestigious{' '}
+                  every batch. Early on, Steve and Andrea attended the prestigious{' '}
                   <strong className="text-ink">Penn State Ice Cream School</strong> — learning the
                   science behind what makes ice cream truly extraordinary.
                 </p>

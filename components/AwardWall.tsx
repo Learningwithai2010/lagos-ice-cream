@@ -6,7 +6,7 @@ const AWARDS = [
   { icon: Trophy, text: 'Best Frappe in New England', sub: 'NECN · 2010 & 2011' },
   { icon: Newspaper, text: 'Wall Street Journal', sub: 'Featured · 2022' },
   { icon: Newspaper, text: 'Yankee Magazine', sub: 'Featured · 2022' },
-  { icon: Star, text: 'Penn State Certified', sub: 'Ice Cream School · 1986' },
+  { icon: Star, text: 'Penn State Trained', sub: 'Ice Cream School' },
 ]
 
 // Duplicate for seamless marquee

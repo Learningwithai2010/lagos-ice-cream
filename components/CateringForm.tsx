@@ -15,6 +15,7 @@ export default function CateringForm() {
   })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [field]: e.target.value }))
@@ -22,8 +23,24 @@ export default function CateringForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // Netlify Forms handles the POST
-    setTimeout(() => { setLoading(false); setSubmitted(true) }, 600)
+    setError('')
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'catering', ...form }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSubmitted(true)
+      } else {
+        setError(data.error || 'Something went wrong. Please call us at (603) 964-9880.')
+      }
+    } catch {
+      setError('Network error. Please call us at (603) 964-9880.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -43,15 +60,7 @@ export default function CateringForm() {
     'w-full px-4 py-3 rounded-2xl border border-stone-border bg-cream-100 text-sm text-ink placeholder:text-stone-light focus:outline-none focus:ring-2 focus:ring-raspberry-300 focus:border-raspberry-300 transition-colors'
 
   return (
-    <form
-      name="catering"
-      method="POST"
-      data-netlify="true"
-      onSubmit={handleSubmit}
-      className="space-y-4"
-    >
-      <input type="hidden" name="form-name" value="catering" />
-
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold text-stone-warm uppercase tracking-wide mb-1.5">
@@ -124,6 +133,10 @@ export default function CateringForm() {
           placeholder="Flavor requests, allergies to note, any other details..."
           rows={3} className={`${inputClass} resize-none`} />
       </div>
+
+      {error && (
+        <p className="text-sm text-red-600 text-center" role="alert">{error}</p>
+      )}
 
       <button
         type="submit"

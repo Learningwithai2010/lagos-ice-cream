@@ -66,8 +66,10 @@ export default function FlavorBoard() {
 
   useEffect(() => { fetchBoard() }, [fetchBoard, tick])
 
+  // Poll so visitors pick up the owner's /admin changes without a manual refresh.
+  // 15s keeps it live-feeling for a demo while staying well inside the Upstash free tier.
   useEffect(() => {
-    const timer = setInterval(() => setTick((t) => t + 1), 60000)
+    const timer = setInterval(() => setTick((t) => t + 1), 15000)
     return () => clearInterval(timer)
   }, [])
 

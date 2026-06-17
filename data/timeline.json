@@ -2,7 +2,7 @@
   {
     "year": "1981",
     "title": "The Beginning",
-    "description": "Mike, Carol, and Andrea Lago open their first ice cream stand at 71 Lafayette Road in Rye, NH. Arnold \"Gramps\" Wade teaches them the craft of homemade ice cream.",
+    "description": "Mike, Carol, and Andrea Lago open their first ice cream stand at 71 Lafayette Road in Rye, NH. Arnold \"Gramps\" Wade teaches them the craft of homemade ice cream, and Steve and Andrea travel to the prestigious Penn State Ice Cream School to master the science behind it.",
     "highlight": true,
     "icon": "star"
   },
@@ -12,13 +12,6 @@
     "description": "Steve Grenier creates the legendary Kahlua Fudge Brownie — a recipe that would earn the title of New England's Best Flavor five years later.",
     "highlight": false,
     "icon": "scoop"
-  },
-  {
-    "year": "1986",
-    "title": "Penn State Training",
-    "description": "Steve and Andrea train at the prestigious Penn State Ice Cream School, mastering the science behind world-class homemade ice cream.",
-    "highlight": false,
-    "icon": "award"
   },
   {
     "year": "1987",

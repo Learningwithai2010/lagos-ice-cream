@@ -3,33 +3,11 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
+import { ExternalLink } from 'lucide-react'
+import { business } from '@/lib/business-data'
 
-const reviews = [
-  {
-    name: 'Sarah M.',
-    location: 'Portsmouth, NH',
-    rating: 5,
-    text: "The Sea Salt Caramel Swirl is genuinely the best ice cream I've had in New Hampshire — and I've been coming to the Seacoast every summer for 15 years. The waffle cone is still warm when they hand it to you. There's just nothing like it after a day at Rye Beach.",
-    date: 'July 2024',
-    initial: 'S',
-  },
-  {
-    name: 'Tom & Diane K.',
-    location: 'Newburyport, MA',
-    rating: 5,
-    text: "We drove up from Newburyport specifically for this. The rotating board is the best part — they actually change it based on what's fresh. Got the Brown Butter Pecan and the Wild Maine Blueberry and had a hard time deciding which was better.",
-    date: 'August 2024',
-    initial: 'T',
-  },
-  {
-    name: 'Jess R.',
-    location: 'Exeter, NH',
-    rating: 5,
-    text: "As someone who's lactose intolerant, I usually resign myself to a sad cup of sorbet. Not here. Lago's has actual coconut-based options that taste like real ice cream, and they keep them rotating. We come every Friday.",
-    date: 'June 2024',
-    initial: 'J',
-  },
-]
+// Real, verbatim Google reviews — sourced from lib/business-data.ts.
+const reviews = business.testimonials
 
 function Stars({ count }: { count: number }) {
   return (
@@ -126,8 +104,8 @@ export default function Testimonials() {
               <p className="font-body text-sm font-semibold text-ink leading-none">Google</p>
             </div>
             <div className="ml-2 pl-3 border-l border-stone-border">
-              <p className="font-display text-xl font-bold text-ink leading-none">4.9</p>
-              <div className="flex gap-0.5 mt-0.5" aria-label="4.9 stars" role="img">
+              <p className="font-display text-xl font-bold text-ink leading-none">{business.rating}</p>
+              <div className="flex gap-0.5 mt-0.5" aria-label={`${business.rating} stars`} role="img">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <svg key={i} className="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -157,11 +135,13 @@ export default function Testimonials() {
                     className="w-10 h-10 rounded-full bg-gradient-to-br from-raspberry-400 to-raspberry-600 flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0"
                     aria-hidden="true"
                   >
-                    {review.initial}
+                    {review.initial ?? '★'}
                   </div>
                   <div>
                     <p className="font-body font-semibold text-ink text-sm leading-tight">{review.name}</p>
-                    <p className="font-body text-xs text-stone-light mt-0.5">{review.location}</p>
+                    {review.location && (
+                      <p className="font-body text-xs text-stone-light mt-0.5">{review.location}</p>
+                    )}
                   </div>
                 </div>
                 <GoogleIcon />
@@ -179,6 +159,19 @@ export default function Testimonials() {
             </motion.article>
           ))}
         </motion.div>
+
+        {/* Review funnel — send happy visitors to the real Google review page */}
+        <div className="text-center mt-12">
+          <a
+            href={business.links.googleReviews}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-body text-sm font-semibold text-raspberry-600 hover:text-raspberry-700 transition-colors"
+          >
+            Read all {business.reviewCount.toLocaleString()} reviews on Google
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
       </div>
     </section>
   )

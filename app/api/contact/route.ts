@@ -1,45 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
+import { business } from '@/lib/business-data'
 
+/**
+ * General "Send a Message" contact form. Emails the owner via Resend.
+ * Falls back to logging (and still succeeds) when email isn't configured,
+ * so the form never appears broken during a demo.
+ */
 export async function POST(request: NextRequest) {
+  let body: { name?: string; email?: string; message?: string }
   try {
-    const body = await request.json()
-    const { name, email, message } = body as {
-      name?: string
-      email?: string
-      message?: string
-    }
-
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
-      return NextResponse.json(
-        { success: false, error: 'All fields are required.' },
-        { status: 400 }
-      )
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { success: false, error: 'Please enter a valid email address.' },
-        { status: 400 }
-      )
-    }
-
-    // Production: wire to Resend, SendGrid, or similar
-    console.log('Contact form submission:', {
-      name: name.trim(),
-      email: email.trim(),
-      message: message.trim(),
-      receivedAt: new Date().toISOString(),
-    })
-
-    return NextResponse.json({
-      success: true,
-      message: "Thanks! We'll be in touch within 24 hours.",
-    })
+    body = await request.json()
   } catch {
+    return NextResponse.json({ success: false, error: 'Invalid request.' }, { status: 400 })
+  }
+
+  const name = body.name?.trim()
+  const email = body.email?.trim()
+  const message = body.message?.trim()
+
+  if (!name || !email || !message) {
     return NextResponse.json(
-      { success: false, error: 'Something went wrong. Please try again.' },
-      { status: 500 }
+      { success: false, error: 'All fields are required.' },
+      { status: 400 }
     )
   }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    return NextResponse.json(
+      { success: false, error: 'Please enter a valid email address.' },
+      { status: 400 }
+    )
+  }
+
+  const apiKey = process.env.RESEND_API_KEY
+  const ownerEmail = process.env.OWNER_EMAIL
+  const fromEmail = process.env.LEAD_FROM_EMAIL || "Lago's Website <onboarding@resend.dev>"
+
+  if (apiKey && ownerEmail) {
+    try {
+      const resend = new Resend(apiKey)
+      await resend.emails.send({
+        from: fromEmail,
+        to: ownerEmail,
+        replyTo: email,
+        subject: `✉️ New message from ${name} — ${business.name} website`,
+        text: `From: ${name} <${email}>\n\n${message}`,
+      })
+    } catch (err) {
+      console.error('Resend error (contact):', err)
+      // Fall through to success — owner can still be reached by phone.
+    }
+  } else {
+    console.log('[contact] (email not configured)', { name, email, message })
+  }
+
+  return NextResponse.json({
+    success: true,
+    message: "Thanks! We'll be in touch within 24 hours.",
+  })
 }

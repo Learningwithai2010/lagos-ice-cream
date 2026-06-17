@@ -7,7 +7,7 @@ import { IceCream2, Coffee, Zap } from 'lucide-react'
 export const metadata: Metadata = {
   title: "Menu | Lago's Ice Cream — Cones, Sundaes, Frappes",
   description:
-    "Full menu at Lago's Ice Cream: cones, cups, waffle cones, sundaes, banana splits, frappes, floats, and ice cream cakes. Rye, NH.",
+    "Full menu at Lago's Ice Cream: cones, cups, waffle cones, sundaes, banana splits, frappes, and floats. Rye, NH.",
 }
 
 const MENU_SECTIONS = [

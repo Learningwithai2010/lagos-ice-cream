@@ -1,14 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Redis } from '@upstash/redis'
 
-// In-memory store for demo. Persists within a server instance; resets on cold start.
-// For production persistence, swap in Vercel KV: https://vercel.com/docs/storage/vercel-kv
-let boardState: { flavors: string[]; updatedAt: string } | null = null
+/**
+ * Today's "Scooping Today" board.
+ *  - Public GET reads the current board.
+ *  - Owner POST (passcode-gated, ADMIN_PASSCODE) updates it from /admin.
+ *
+ * State lives in Upstash Redis when configured, so every visitor sees the
+ * owner's changes. If Upstash env vars are missing (local dev / demo without
+ * setup), it falls back to an in-memory store so nothing breaks.
+ */
+
+const BOARD_KEY = 'lago:flavor-board'
+
+type Board = { flavors: string[]; updatedAt: string }
+
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? Redis.fromEnv()
+    : null
+
+// In-memory fallback (per server instance; resets on cold start).
+let memoryBoard: Board | null = null
+
+async function readBoard(): Promise<Board | null> {
+  if (redis) return (await redis.get<Board>(BOARD_KEY)) ?? null
+  return memoryBoard
+}
+
+async function writeBoard(board: Board): Promise<void> {
+  if (redis) await redis.set(BOARD_KEY, board)
+  else memoryBoard = board
+}
 
 export async function GET() {
-  if (!boardState) {
-    return NextResponse.json({ flavors: null })
-  }
-  return NextResponse.json(boardState)
+  const board = await readBoard()
+  if (!board) return NextResponse.json({ flavors: null })
+  return NextResponse.json(board)
 }
 
 export async function POST(request: NextRequest) {
@@ -28,10 +56,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'flavors must be an array' }, { status: 400 })
   }
 
-  boardState = {
-    flavors: body.flavors,
-    updatedAt: new Date().toISOString(),
-  }
+  const board: Board = { flavors: body.flavors, updatedAt: new Date().toISOString() }
+  await writeBoard(board)
 
-  return NextResponse.json({ ok: true, updatedAt: boardState.updatedAt })
+  return NextResponse.json({ ok: true, updatedAt: board.updatedAt, persisted: Boolean(redis) })
 }

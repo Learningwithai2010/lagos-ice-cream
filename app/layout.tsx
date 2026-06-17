@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     description: "13× NH's Best Ice Cream. Handcrafted since 1981.",
   },
   robots: { index: true, follow: true },
-  other: { 'theme-color': '#8B2F82' },
+  other: { 'theme-color': '#2E5090' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -76,6 +76,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               servesCuisine: 'Ice Cream',
               priceRange: '$',
               award: "13× NH Magazine's Best Ice Cream",
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '4.8',
+                reviewCount: '1232',
+              },
             }),
           }}
         />

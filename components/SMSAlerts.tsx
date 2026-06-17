@@ -6,11 +6,23 @@ import { Bell, CheckCircle } from 'lucide-react'
 export default function SMSAlerts() {
   const [form, setForm] = useState({ name: '', contact: '', flavor: 'Funky Panda' })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Netlify Forms submission
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'alert', ...form }),
+      })
+    } catch {
+      // Even on failure we confirm — capture is best-effort, never block the visitor.
+    } finally {
+      setLoading(false)
+      setSubmitted(true)
+    }
   }
 
   const POPULAR_FLAVORS = [
@@ -44,15 +56,7 @@ export default function SMSAlerts() {
           Get notified when your favorite flavor is scooping. Drop your info below.
         </p>
 
-        <form
-          name="flavor-alerts"
-          method="POST"
-          data-netlify="true"
-          onSubmit={handleSubmit}
-          className="space-y-3"
-        >
-          <input type="hidden" name="form-name" value="flavor-alerts" />
-
+        <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="text"
             name="name"
@@ -88,9 +92,10 @@ export default function SMSAlerts() {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-2xl bg-white text-raspberry-600 font-semibold text-sm hover:bg-cream-100 transition-colors"
+            disabled={loading}
+            className="w-full py-3 rounded-2xl bg-white text-raspberry-600 font-semibold text-sm hover:bg-cream-100 transition-colors disabled:opacity-60"
           >
-            Notify Me When It&apos;s Back
+            {loading ? 'Adding you…' : "Notify Me When It's Back"}
           </button>
         </form>
         <p className="text-white/50 text-xs mt-3">

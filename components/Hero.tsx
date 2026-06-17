@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Clock, MapPin, Star } from 'lucide-react'
+import { ArrowRight, Clock, MapPin, Phone, Star } from 'lucide-react'
 import Image from 'next/image'
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 
@@ -308,6 +308,10 @@ export default function Hero() {
                 <MapPin className="w-4 h-4 text-raspberry-400 flex-shrink-0" />
                 71 Lafayette Road, Rye, NH
               </span>
+              <a href="tel:+16039649880" className="flex items-center gap-2 hover:text-raspberry-600 transition-colors">
+                <Phone className="w-4 h-4 text-raspberry-400 flex-shrink-0" />
+                (603) 964-9880
+              </a>
             </motion.div>
           </motion.div>
 

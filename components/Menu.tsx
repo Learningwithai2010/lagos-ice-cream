@@ -10,34 +10,34 @@ const items = [
     description:
       'The original. Single, double, or triple — your call. Piled into a house-made waffle cone or a classic sugar cone fresh off the rack. Eight to twelve flavors rotating daily.',
     note: 'Waffle cones made fresh every morning',
-    accentBg: 'bg-teal-600',
-    noteColor: 'text-teal-600 bg-teal-50 border-teal-100',
-    dotColor: 'bg-teal-500',
+    accentBg: 'bg-raspberry-500',
+    noteColor: 'text-raspberry-600 bg-raspberry-50 border-raspberry-100',
+    dotColor: 'bg-raspberry-500',
     badge: 'Signature',
-    badgeColor: 'bg-teal-50 text-teal-700 border-teal-100',
+    badgeColor: 'bg-raspberry-50 text-raspberry-600 border-raspberry-200',
     image: '/images/waffle-cone-closeup.jpg',
     imageAlt: "Fresh hand-scooped waffle cone at Lago's Ice Cream",
     featured: true,
   },
   {
-    title: 'Ice Cream Cakes',
+    title: 'Frappes & Floats',
     description:
-      'Custom cakes built to order — your flavors, your frosting, your occasion. Birthdays, graduations, or a Tuesday in July.',
-    note: '48-hour advance order required',
-    accentBg: 'bg-coral',
-    noteColor: 'text-orange-600',
-    dotColor: 'bg-coral',
+      'Any flavor, hand-blended to order. Our frappes were named Best Frappe in New England — twice. Floats poured with root beer or orange soda.',
+    note: '2× Best Frappe in New England',
+    accentBg: 'bg-gold',
+    noteColor: 'text-gold-dark',
+    dotColor: 'bg-gold',
     badge: '',
     badgeColor: '',
-    image: '/images/ice-cream-cake.jpg',
-    imageAlt: "Custom decorated ice cream cake from Lago's",
+    image: '/images/happy-customer.jpg',
+    imageAlt: "A hand-blended frappe at Lago's Ice Cream",
   },
   {
     title: 'Sundaes & Splits',
     description:
       'Built the old-fashioned way. House-made hot fudge, fresh whipped cream, and a banana split that actually earns the name.',
     note: '',
-    accentBg: 'bg-slate-700',
+    accentBg: 'bg-ink',
     noteColor: '',
     dotColor: '',
     badge: '',
@@ -82,8 +82,8 @@ export default function Menu() {
   const [cones, cakes, sundaes, dairyFree] = items
 
   return (
-    <section id="menu" className="py-24 md:py-32 bg-slate-50 relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" aria-hidden="true" />
+    <section id="menu" className="py-24 md:py-32 bg-cream-200 relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-stone-border to-transparent" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
@@ -95,18 +95,18 @@ export default function Menu() {
           className="max-w-xl mb-14"
         >
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-6 h-px bg-teal-600" aria-hidden="true" />
-            <span className="font-body text-[11px] font-bold tracking-[0.15em] uppercase text-teal-600">
+            <div className="w-6 h-px bg-raspberry-500" aria-hidden="true" />
+            <span className="font-body text-[11px] font-bold tracking-[0.15em] uppercase text-raspberry-500">
               What We Serve
             </span>
           </div>
           <h2
-            className="font-display font-bold text-slate-900 leading-tight mb-4"
+            className="font-display font-bold text-ink leading-tight mb-4"
             style={{ fontSize: 'clamp(1.875rem, 4vw, 3rem)' }}
           >
             More Than a Scoop.
           </h2>
-          <p className="font-body text-slate-500 text-base leading-relaxed">
+          <p className="font-body text-ink-light text-base leading-relaxed">
             Everything starts with the same commitment: real ingredients, made with care, served with
             a generous pour.
           </p>
@@ -122,13 +122,13 @@ export default function Menu() {
           {/* Featured cones — 2/3 width, split layout */}
           <motion.div
             variants={cardAnim}
-            className="md:col-span-2 relative bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
+            className="md:col-span-2 relative bg-white rounded-3xl border border-stone-border overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
           >
             <div className={`h-1.5 w-full ${cones.accentBg}`} aria-hidden="true" />
             <div className="flex flex-col md:flex-row min-h-[280px] md:min-h-[320px]">
               <div className="p-8 md:p-10 flex flex-col justify-between flex-1 relative">
                 <span
-                  className="absolute bottom-4 right-6 font-display font-bold text-slate-100 select-none leading-none pointer-events-none"
+                  className="absolute bottom-4 right-6 font-display font-bold text-stone-border select-none leading-none pointer-events-none"
                   style={{ fontSize: '7rem' }}
                   aria-hidden="true"
                 >
@@ -139,19 +139,19 @@ export default function Menu() {
                     {cones.badge}
                   </span>
                   <h3
-                    className="font-display font-bold text-slate-900 leading-tight mb-3"
+                    className="font-display font-bold text-ink leading-tight mb-3"
                     style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
                   >
                     {cones.title}
                   </h3>
-                  <p className="font-body text-slate-500 text-base leading-relaxed max-w-xs">
+                  <p className="font-body text-ink-light text-base leading-relaxed max-w-xs">
                     {cones.description}
                   </p>
                 </div>
                 {cones.note && (
                   <div className="mt-6 flex items-center gap-2">
                     <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cones.dotColor}`} aria-hidden="true" />
-                    <span className="font-body text-sm text-teal-600 font-medium">{cones.note}</span>
+                    <span className="font-body text-sm text-raspberry-600 font-medium">{cones.note}</span>
                   </div>
                 )}
               </div>
@@ -167,10 +167,10 @@ export default function Menu() {
             </div>
           </motion.div>
 
-          {/* Ice cream cakes — 1/3 width, photo top */}
+          {/* Frappes & Floats — 1/3 width, photo top */}
           <motion.div
             variants={cardAnim}
-            className="relative bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
+            className="relative bg-white rounded-3xl border border-stone-border overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
           >
             <div className="relative h-44 overflow-hidden">
               <Image
@@ -184,13 +184,13 @@ export default function Menu() {
             </div>
             <div className="p-6 flex flex-col justify-between min-h-[160px]">
               <div>
-                <h3 className="font-display text-xl font-bold text-slate-900 mb-2">{cakes.title}</h3>
-                <p className="font-body text-sm text-slate-500 leading-relaxed">{cakes.description}</p>
+                <h3 className="font-display text-xl font-bold text-ink mb-2">{cakes.title}</h3>
+                <p className="font-body text-sm text-ink-light leading-relaxed">{cakes.description}</p>
               </div>
               {cakes.note && (
                 <div className="mt-4 flex items-center gap-2">
                   <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cakes.dotColor}`} aria-hidden="true" />
-                  <span className="font-body text-xs text-orange-600 font-medium">{cakes.note}</span>
+                  <span className="font-body text-xs text-gold-dark font-medium">{cakes.note}</span>
                 </div>
               )}
             </div>
@@ -199,7 +199,7 @@ export default function Menu() {
           {/* Sundaes — 1/3 width */}
           <motion.div
             variants={cardAnim}
-            className="relative bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
+            className="relative bg-white rounded-3xl border border-stone-border overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
           >
             <div className="relative h-40 overflow-hidden">
               <Image
@@ -212,22 +212,22 @@ export default function Menu() {
               <div className={`absolute top-0 left-0 right-0 h-1.5 ${sundaes.accentBg}`} aria-hidden="true" />
             </div>
             <div className="p-6 min-h-[160px]">
-              <h3 className="font-display text-xl font-bold text-slate-900 mb-2">{sundaes.title}</h3>
-              <p className="font-body text-sm text-slate-500 leading-relaxed">{sundaes.description}</p>
+              <h3 className="font-display text-xl font-bold text-ink mb-2">{sundaes.title}</h3>
+              <p className="font-body text-sm text-ink-light leading-relaxed">{sundaes.description}</p>
             </div>
           </motion.div>
 
           {/* Dairy-free — 2/3 width, split layout */}
           <motion.div
             variants={cardAnim}
-            className="md:col-span-2 relative bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
+            className="md:col-span-2 relative bg-white rounded-3xl border border-stone-border overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 group"
           >
             <div className={`h-1.5 w-full ${dairyFree.accentBg}`} aria-hidden="true" />
             <div className="flex flex-col md:flex-row">
               <div className="p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-5 flex-1">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-display text-xl font-bold text-slate-900 mb-2">{dairyFree.title}</h3>
-                  <p className="font-body text-sm text-slate-500 leading-relaxed">{dairyFree.description}</p>
+                  <h3 className="font-display text-xl font-bold text-ink mb-2">{dairyFree.title}</h3>
+                  <p className="font-body text-sm text-ink-light leading-relaxed">{dairyFree.description}</p>
                 </div>
                 {dairyFree.note && (
                   <div className={`flex-shrink-0 inline-flex items-center gap-2 border px-4 py-2.5 rounded-full ${dairyFree.noteColor}`}>
@@ -250,7 +250,7 @@ export default function Menu() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" aria-hidden="true" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-stone-border to-transparent" aria-hidden="true" />
     </section>
   )
 }
