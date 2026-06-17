@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { business } from '@/lib/business-data'
+import { saveSubmission, TABLES } from '@/lib/supabase'
 
 /**
  * Careers / employment application intake.
@@ -91,6 +92,27 @@ export async function POST(request: NextRequest) {
   const rows = Object.keys(FIELD_LABELS)
     .map((k) => [FIELD_LABELS[k], get(k)] as const)
     .filter(([, v]) => v !== '')
+
+  // Store the application (resume file is emailed; we keep its name on the row).
+  await saveSubmission(TABLES.applications, {
+    first_name: firstName,
+    last_name: lastName,
+    email: email || null,
+    phone: phone || null,
+    address: get('address') || null,
+    age: get('age') || null,
+    position,
+    employment_type: get('employmentType') || null,
+    start_date: get('startDate') || null,
+    days_available: get('daysAvailable') || null,
+    hours_available: get('hoursAvailable') || null,
+    previous_employer: get('previousEmployer') || null,
+    experience: get('experience') || null,
+    customer_service: get('customerService') || null,
+    why_lagos: get('whyLagos') || null,
+    good_fit: get('goodFit') || null,
+    resume_filename: attachment?.filename || null,
+  })
 
   const apiKey = process.env.RESEND_API_KEY
   const ownerEmail = process.env.OWNER_EMAIL

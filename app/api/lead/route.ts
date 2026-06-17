@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { business } from '@/lib/business-data'
+import { saveSubmission, TABLES } from '@/lib/supabase'
 
 /**
- * Unified lead capture for every form on the site (catering, flavor alerts,
- * general contact). Submissions are emailed to the BUSINESS OWNER via Resend.
- *
- * If RESEND_API_KEY / OWNER_EMAIL are not set (e.g. local dev), the lead is
- * logged and the request still succeeds so the demo never shows a broken form.
+ * Unified lead capture for the catering, flavor-alert, and general-contact
+ * forms. Each submission is (1) stored in Supabase and (2) emailed to the
+ * owner via Resend. Both are best-effort — if either isn't configured the
+ * request still succeeds so the visitor is never blocked.
  */
 
 type LeadType = 'catering' | 'alert' | 'contact'
@@ -24,6 +24,9 @@ function escapeHtml(s: string): string {
   )
 }
 
+const str = (v: unknown) => String(v ?? '').trim()
+const orNull = (v: unknown) => (str(v) === '' ? null : str(v))
+
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>
   try {
@@ -37,57 +40,77 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: 'Unknown form type.' }, { status: 400 })
   }
 
-  // Minimal validation — every form sends at least a name + a way to reach back.
-  const name = String(body.name || '').trim()
-  const contact = String(body.email || body.phone || body.contact || '').trim()
-  if (!name || !contact) {
+  const name = str(body.name)
+  const contact = str(body.email) || str(body.phone) || str(body.contact)
+  if (!name && !contact) {
     return NextResponse.json(
       { success: false, error: 'Please include your name and a phone or email.' },
       { status: 400 }
     )
   }
 
-  // Build a readable summary from whatever fields the form sent.
+  // ── Store in Supabase (mapped to the right table) ──
+  if (type === 'catering') {
+    await saveSubmission(TABLES.catering, {
+      name,
+      phone: orNull(body.phone),
+      email: orNull(body.email),
+      event_type: orNull(body.eventType),
+      event_date: orNull(body.date),
+      event_size: orNull(body.eventSize),
+      half_gallons: orNull(body.halfGallons),
+      notes: orNull(body.notes),
+    })
+  } else if (type === 'alert') {
+    await saveSubmission(TABLES.alerts, {
+      name: orNull(body.name),
+      contact,
+      flavor: orNull(body.flavor),
+    })
+  } else {
+    await saveSubmission(TABLES.contact, {
+      name,
+      email: orNull(body.email),
+      message: orNull(body.message),
+    })
+  }
+
+  // ── Email the owner ──
   const fields = Object.entries(body)
     .filter(([k]) => k !== 'type')
-    .filter(([, v]) => v !== undefined && v !== null && String(v).trim() !== '')
-    .map(([k, v]) => `${k}: ${String(v).trim()}`)
+    .filter(([, v]) => str(v) !== '')
+    .map(([k, v]) => `${k}: ${str(v)}`)
 
   const apiKey = process.env.RESEND_API_KEY
   const ownerEmail = process.env.OWNER_EMAIL
-  const fromEmail = process.env.LEAD_FROM_EMAIL || 'Lago\'s Website <onboarding@resend.dev>'
+  const fromEmail = process.env.LEAD_FROM_EMAIL || "Lago's Website <onboarding@resend.dev>"
 
-  if (!apiKey || !ownerEmail) {
-    // Demo / local fallback — never block the user, just record it.
+  if (apiKey && ownerEmail) {
+    try {
+      const resend = new Resend(apiKey)
+      await resend.emails.send({
+        from: fromEmail,
+        to: ownerEmail,
+        replyTo: str(body.email) || undefined,
+        subject: SUBJECTS[type],
+        html: `
+          <h2 style="font-family:sans-serif">${SUBJECTS[type]}</h2>
+          <p style="font-family:sans-serif;color:#555">From the ${business.name} website</p>
+          <table style="font-family:sans-serif;border-collapse:collapse">
+            ${fields
+              .map(
+                (line) =>
+                  `<tr><td style="padding:6px 12px;border:1px solid #eee">${escapeHtml(line)}</td></tr>`
+              )
+              .join('')}
+          </table>`,
+      })
+    } catch (err) {
+      console.error('Resend error:', err)
+    }
+  } else {
     console.log(`[lead:${type}] (email not configured)`, fields.join(' | '))
-    return NextResponse.json({ success: true, delivered: false })
   }
 
-  try {
-    const resend = new Resend(apiKey)
-    const html = `
-      <h2 style="font-family:sans-serif">${SUBJECTS[type]}</h2>
-      <p style="font-family:sans-serif;color:#555">From the ${business.name} website</p>
-      <table style="font-family:sans-serif;border-collapse:collapse">
-        ${fields
-          .map(
-            (line) =>
-              `<tr><td style="padding:6px 12px;border:1px solid #eee">${escapeHtml(line)}</td></tr>`
-          )
-          .join('')}
-      </table>
-    `
-    await resend.emails.send({
-      from: fromEmail,
-      to: ownerEmail,
-      replyTo: String(body.email || '') || undefined,
-      subject: SUBJECTS[type],
-      html,
-    })
-    return NextResponse.json({ success: true, delivered: true })
-  } catch (err) {
-    console.error('Resend error:', err)
-    // Still acknowledge so the visitor isn't blocked; owner can follow up by phone.
-    return NextResponse.json({ success: true, delivered: false })
-  }
+  return NextResponse.json({ success: true })
 }

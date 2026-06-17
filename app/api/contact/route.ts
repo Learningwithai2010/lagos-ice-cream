@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { business } from '@/lib/business-data'
+import { saveSubmission, TABLES } from '@/lib/supabase'
 
 /**
  * General "Send a Message" contact form. Emails the owner via Resend.
@@ -33,6 +34,8 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
   }
+
+  await saveSubmission(TABLES.contact, { name, email, message })
 
   const apiKey = process.env.RESEND_API_KEY
   const ownerEmail = process.env.OWNER_EMAIL

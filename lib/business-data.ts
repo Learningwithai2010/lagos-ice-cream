@@ -77,9 +77,17 @@ export const business = {
 
   links: {
     website: 'https://www.lagosicecream.com',
-    googleMaps: "https://www.google.com/maps/place/Lago's+Ice+Cream",
-    googleReviews: "https://www.google.com/maps/place/Lago's+Ice+Cream/reviews",
-    // Social URLs: UNKNOWN — omitted on purpose.
+    // Query-based URLs reliably resolve to the real listing (no place_id needed).
+    googleMaps:
+      'https://www.google.com/maps/search/?api=1&query=Lago%27s%20Ice%20Cream%2C%2071%20Lafayette%20Rd%2C%20Rye%2C%20NH%2003870',
+    directions:
+      'https://www.google.com/maps/dir/?api=1&destination=Lago%27s%20Ice%20Cream%2C%2071%20Lafayette%20Rd%2C%20Rye%2C%20NH%2003870',
+    googleReviews:
+      'https://www.google.com/maps/search/?api=1&query=Lago%27s%20Ice%20Cream%2C%2071%20Lafayette%20Rd%2C%20Rye%2C%20NH%2003870',
+    // Embeddable map (no API key required).
+    mapEmbed:
+      'https://www.google.com/maps?q=Lago%27s%20Ice%20Cream%2C%2071%20Lafayette%20Rd%2C%20Rye%2C%20NH%2003870&output=embed',
+    facebook: 'https://www.facebook.com/p/Lagos-Ice-Cream-100057840679165/',
   },
 
   /** Real, verbatim Google reviews. Do not edit the text. */

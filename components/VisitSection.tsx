@@ -1,5 +1,6 @@
 import { Clock, MapPin, Phone, Mail, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
+import { business } from '../lib/business-data'
 
 const HOURS = [
   { days: 'Monday – Sunday', hours: '1:00 PM – 9:00 PM' },
@@ -54,16 +55,16 @@ export default function VisitSection() {
                   71 Lafayette Road (Route 1)<br />
                   Rye, NH 03870
                 </p>
-                <a href="tel:6039649880" className="flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors">
+                <a href={business.phoneTel} className="flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors">
                   <Phone className="w-4 h-4" />
-                  603-964-9880
+                  (603) 964-9880
                 </a>
                 <a href="mailto:lagosicecream@yahoo.com" className="flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors">
                   <Mail className="w-4 h-4" />
                   lagosicecream@yahoo.com
                 </a>
                 <a
-                  href="https://www.google.com/maps/search/Lago's+Ice+Cream+Rye+NH"
+                  href={business.links.directions}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors"
@@ -94,7 +95,7 @@ export default function VisitSection() {
           <div className="card-base overflow-hidden h-full min-h-[400px]">
             <iframe
               title="Lago's Ice Cream on Google Maps"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2921.1234567890!2d-70.76177!3d43.00653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e2e68b6b9b5b5b%3A0x1234567890abcdef!2s71%20Lafayette%20Rd%2C%20Rye%2C%20NH%2003870!5e0!3m2!1sen!2sus!4v1234567890"
+              src={business.links.mapEmbed}
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: '400px' }}

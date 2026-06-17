@@ -1,5 +1,13 @@
 import Link from 'next/link'
 import { IceCream2, Phone, Mail, MapPin, ExternalLink } from 'lucide-react'
+
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8v8.44C19.61 23.08 24 18.09 24 12.07Z" />
+    </svg>
+  )
+}
 import { business } from '../lib/business-data'
 
 const FOOTER_LINKS = [
@@ -55,7 +63,7 @@ export default function Footer() {
             Handcrafted homemade ice cream on the NH Seacoast since 1981. 13× NH&apos;s Best Ice Cream.
           </p>
           <div className="space-y-2 text-sm text-white/60">
-            <a href="tel:6039649880" className="flex items-center gap-2 hover:text-white transition-colors">
+            <a href="tel:+16039649880" className="flex items-center gap-2 hover:text-white transition-colors">
               <Phone className="w-3.5 h-3.5" /> 603-964-9880
             </a>
             <a href="mailto:lagosicecream@yahoo.com" className="flex items-center gap-2 hover:text-white transition-colors">
@@ -65,6 +73,15 @@ export default function Footer() {
               <MapPin className="w-3.5 h-3.5 mt-0.5" /> 71 Lafayette Road, Rye, NH
             </p>
           </div>
+          <a
+            href={business.links.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Lago's Ice Cream on Facebook"
+            className="inline-flex items-center justify-center w-9 h-9 mt-5 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+          >
+            <FacebookIcon className="w-4 h-4" />
+          </a>
         </div>
 
         {FOOTER_LINKS.map((group) => (

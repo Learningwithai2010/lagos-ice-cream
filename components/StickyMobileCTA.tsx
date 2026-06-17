@@ -34,7 +34,7 @@ export default function StickyMobileCTA() {
           <span className="text-[11px] font-semibold">Call</span>
         </a>
         <a
-          href={business.links.googleMaps}
+          href={business.links.directions}
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center justify-center gap-1 py-2.5 text-ink-light border-x border-stone-border/70 active:bg-cream-200"

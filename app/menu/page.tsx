@@ -135,7 +135,7 @@ export default function MenuPage() {
               ))}
             </div>
             <p className="text-center text-xs text-stone-light mt-8">
-              Call ahead to reserve: <a href="tel:6039649880" className="text-raspberry-500 font-medium">603-964-9880</a>
+              Call ahead to reserve: <a href="tel:+16039649880" className="text-raspberry-500 font-medium">603-964-9880</a>
             </p>
           </div>
         </section>

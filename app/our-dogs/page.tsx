@@ -71,7 +71,7 @@ export default function OurDogsPage() {
                     Just keep them on leash and away from our serving area. Ask us about a pup cup! 🍦
                   </p>
                   <div className="mt-4">
-                    <a href="tel:6039649880" className="text-sm font-semibold text-raspberry-600 hover:text-raspberry-700">
+                    <a href="tel:+16039649880" className="text-sm font-semibold text-raspberry-600 hover:text-raspberry-700">
                       Call 603-964-9880 →
                     </a>
                   </div>

@@ -159,7 +159,7 @@ export default function FlavorBoard() {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-stone-light text-center sm:text-left">
             Flavors vary seasonally. Call{' '}
-            <a href="tel:6039649880" className="text-raspberry-500 font-medium">603-964-9880</a>{' '}
+            <a href="tel:+16039649880" className="text-raspberry-500 font-medium">603-964-9880</a>{' '}
             for today&apos;s full list.
           </p>
           <Link href="/flavors" className="btn-secondary text-sm py-2 px-5 whitespace-nowrap">
