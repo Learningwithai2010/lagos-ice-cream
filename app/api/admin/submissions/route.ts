@@ -24,8 +24,11 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await db.from(table).select('*').order('created_at', { ascending: false })
   if (error) {
+    // Most common cause: schema.sql not run yet, or only the anon key is set
+    // (RLS blocks it). Degrade to the dashboard's "not connected" notice
+    // instead of erroring out.
     console.error('[admin] fetch error:', error.message)
-    return NextResponse.json({ error: 'Could not load submissions.' }, { status: 500 })
+    return NextResponse.json({ rows: [], supabase: false, setupNeeded: true })
   }
   return NextResponse.json({ rows: data ?? [], supabase: true })
 }
