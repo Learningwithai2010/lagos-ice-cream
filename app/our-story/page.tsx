@@ -22,11 +22,12 @@ export default function OurStoryPage() {
         <div className="relative overflow-hidden">
           <div className="h-64 md:h-80 relative">
             <Image
-              src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1600&q=80&auto=format"
-              alt="Ice cream being scooped"
+              src="/images/real/storefront-banner.jpeg"
+              alt="A row of Lago's homemade ice cream flavors"
               fill
-              className="object-cover"
-              unoptimized
+              sizes="100vw"
+              priority
+              className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cream" />
           </div>

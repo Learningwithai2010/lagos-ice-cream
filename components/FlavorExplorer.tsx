@@ -1,12 +1,25 @@
 'use client'
 
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { Search, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { Search, X, ChevronDown, ChevronUp, Flame, Sparkles } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import clsx from 'clsx'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 type Flavor = typeof allFlavors[0]
+
+// Real bestsellers / most-asked-for flavors (from research) — drive the
+// "Popular" badge and the default "Most Popular" sort.
+const POPULAR_IDS = new Set([
+  'funky-panda',
+  'kahlua-fudge-brownie',
+  'black-raspberry',
+  'cappuccino-slam',
+  'salty-sailor',
+  'oreo',
+  'peanut-butter-cup',
+  'mint-chocolate-chip',
+])
 
 const ALLERGEN_FILTERS = [
   { key: 'no-gluten',   label: 'Gluten Free',  allergen: 'gluten' },
@@ -56,21 +69,26 @@ const gridVars = {
   },
 }
 
-function FlavorCard({ flavor }: { flavor: Flavor }) {
+function FlavorCard({ flavor, isPopular }: { flavor: Flavor; isPopular: boolean }) {
   const [expanded, setExpanded] = useState(false)
   const accent = COLOR_MAP[flavor.colorHint] || '#2E5090'
 
   return (
-    <div className="card-base p-5 flex flex-col gap-3 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-200">
+    <div className="card-base p-5 flex flex-col gap-3 hover:shadow-card-hover hover:-translate-y-1 hover:border-gold/40 transition-all duration-200">
       {/* Color bar */}
-      <div className="h-1 rounded-full w-12" style={{ backgroundColor: accent }} />
+      <div className="h-1.5 rounded-full w-12" style={{ backgroundColor: accent }} />
 
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-semibold text-ink text-base leading-snug">{flavor.name}</h3>
         <div className="flex flex-col items-end gap-1 shrink-0">
           {flavor.isOriginal && (
-            <span className="text-[10px] font-bold tracking-wider uppercase text-raspberry-500 bg-raspberry-50 px-2 py-0.5 rounded-full">
-              Original
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-raspberry-500 bg-raspberry-50 px-2 py-0.5 rounded-full">
+              <Sparkles className="w-2.5 h-2.5" /> Original
+            </span>
+          )}
+          {isPopular && !flavor.isOriginal && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-gold-dark bg-gold-soft px-2 py-0.5 rounded-full">
+              <Flame className="w-2.5 h-2.5" /> Popular
             </span>
           )}
           {flavor.halfGallon && (
@@ -126,6 +144,8 @@ export default function FlavorExplorer() {
   const [search, setSearch] = useState('')
   const [allergenFilters, setAllergenFilters] = useState<Set<string>>(new Set())
   const [categoryFilters, setCategoryFilters] = useState<Set<string>>(new Set())
+  const [sort, setSort] = useState<'popular' | 'az'>('popular')
+  const [showSuggest, setShowSuggest] = useState(false)
 
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView   = useInView(sectionRef, { once: true, margin: '-60px' })
@@ -198,6 +218,25 @@ export default function FlavorExplorer() {
     })
   }, [search, allergenFilters, categoryFilters])
 
+  // Sort: "Most Popular" floats bestsellers + originals up; "A–Z" alphabetical.
+  const sorted = useMemo(() => {
+    const rank = (f: Flavor) => (POPULAR_IDS.has(f.id) ? 0 : f.isOriginal ? 1 : 2)
+    return [...filtered].sort((a, b) => {
+      if (sort === 'az') return a.name.localeCompare(b.name)
+      const r = rank(a) - rank(b)
+      return r !== 0 ? r : a.name.localeCompare(b.name)
+    })
+  }, [filtered, sort])
+
+  // Autocomplete suggestions from the search box.
+  const suggestions = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    if (q.length < 2) return []
+    return allFlavors
+      .filter((f) => f.name.toLowerCase().includes(q))
+      .slice(0, 6)
+  }, [search])
+
   return (
     <section id="flavor-explorer" ref={sectionRef} className="section-pad bg-cream-200">
       <div className="container-wide">
@@ -222,18 +261,41 @@ export default function FlavorExplorer() {
           {/* Search + filters */}
           <motion.div variants={fadeUpVars} className="bg-white rounded-3xl shadow-card p-5 md:p-6 mb-8 border border-stone-border/50">
             <div className="relative mb-5">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-light" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-light z-10" />
               <input
-                type="search"
+                type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => { setSearch(e.target.value); setShowSuggest(true) }}
+                onFocus={() => setShowSuggest(true)}
+                onBlur={() => setTimeout(() => setShowSuggest(false), 120)}
                 placeholder="Search flavors (e.g. &quot;coffee&quot;, &quot;oreo&quot;, &quot;caramel&quot;)..."
                 className="w-full pl-10 pr-10 py-3 rounded-2xl border border-stone-border bg-cream-100 text-ink placeholder:text-stone-light text-sm focus:outline-none focus:ring-2 focus:ring-raspberry-300 focus:border-raspberry-300 transition-colors"
               />
               {search && (
-                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-stone-100 transition-colors">
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-stone-100 transition-colors z-10">
                   <X className="w-3 h-3 text-stone-warm" />
                 </button>
+              )}
+
+              {/* Autocomplete */}
+              {showSuggest && suggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full mt-2 bg-white border border-stone-border rounded-2xl shadow-card-hover overflow-hidden z-20">
+                  {suggestions.map((f) => (
+                    <li key={f.id}>
+                      <button
+                        onMouseDown={(e) => { e.preventDefault(); setSearch(f.name); setShowSuggest(false) }}
+                        className="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream-200 flex items-center justify-between gap-2"
+                      >
+                        <span>{f.name}</span>
+                        {(POPULAR_IDS.has(f.id) || f.isOriginal) && (
+                          <span className="text-[10px] font-bold uppercase tracking-wide text-gold-dark">
+                            {f.isOriginal ? 'Original' : 'Popular'}
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
 
@@ -281,23 +343,39 @@ export default function FlavorExplorer() {
               </div>
             </div>
 
-            {/* Clear + count */}
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-border/50">
+            {/* Sort + clear + count */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-stone-border/50">
               <p className="text-sm text-stone-warm">
-                <span className="font-semibold text-ink">{filtered.length}</span> flavor{filtered.length !== 1 ? 's' : ''} found
+                <span className="font-semibold text-ink">{sorted.length}</span> flavor{sorted.length !== 1 ? 's' : ''} found
               </p>
-              {hasFilters && (
-                <button onClick={clearAll} className="text-xs text-raspberry-500 hover:text-raspberry-700 font-medium flex items-center gap-1">
-                  <X className="w-3 h-3" /> Clear all filters
-                </button>
-              )}
+              <div className="flex items-center gap-3">
+                <div className="inline-flex rounded-full border border-stone-border p-0.5 bg-cream-100">
+                  {([['popular', 'Most Popular'], ['az', 'A–Z']] as const).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => setSort(key)}
+                      className={clsx(
+                        'px-3 py-1 rounded-full text-xs font-semibold transition-colors',
+                        sort === key ? 'bg-raspberry-500 text-white' : 'text-stone-warm hover:text-ink'
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {hasFilters && (
+                  <button onClick={clearAll} className="text-xs text-raspberry-500 hover:text-raspberry-700 font-medium flex items-center gap-1">
+                    <X className="w-3 h-3" /> Clear
+                  </button>
+                )}
+              </div>
             </div>
           </motion.div>
 
           {/* Flavor grid with AnimatePresence for empty state */}
           <motion.div variants={gridVars}>
             <AnimatePresence mode="wait">
-              {filtered.length === 0 ? (
+              {sorted.length === 0 ? (
                 <motion.div
                   key="empty"
                   initial={{ opacity: 0, y: 12 }}
@@ -322,8 +400,8 @@ export default function FlavorExplorer() {
                   transition={{ duration: 0.2 }}
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
                 >
-                  {filtered.map((flavor) => (
-                    <FlavorCard key={flavor.id} flavor={flavor} />
+                  {sorted.map((flavor) => (
+                    <FlavorCard key={flavor.id} flavor={flavor} isPopular={POPULAR_IDS.has(flavor.id)} />
                   ))}
                 </motion.div>
               )}

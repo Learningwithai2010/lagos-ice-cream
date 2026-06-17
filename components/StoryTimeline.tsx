@@ -2,83 +2,59 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import timelineData from '../data/timeline.json'
-import { Trophy, Star, Medal, Newspaper, IceCream2 } from 'lucide-react'
+import { Sparkles, Award, Trophy, Crown } from 'lucide-react'
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  trophy: Trophy,
-  star: Star,
-  medal: Medal,
-  press: Newspaper,
-  scoop: IceCream2,
-  award: Trophy,
-}
+// Curated to the four moments that build trust fastest (story in <15s).
+const MILESTONES = [
+  { year: '1981', icon: Sparkles, title: 'The Beginning', line: 'The Lago family opens the stand in Rye, NH.' },
+  { year: '1987', icon: Award, title: "New England's Best Flavor", line: 'Kahlua Fudge Brownie wins on WBZ TV4 Boston.' },
+  { year: '2009', icon: Trophy, title: 'First NH Magazine Win', line: 'Named NH’s Best Ice Cream for the first time.' },
+  { year: '2025', icon: Crown, title: '13× NH’s Best', line: 'The most decorated ice cream shop in the state.' },
+]
 
 export default function StoryTimeline() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
     <section className="section-pad bg-cream-200 overflow-hidden">
       <div className="container-tight">
         <div className="text-center mb-12">
-          <p className="section-label">Our History</p>
+          <p className="section-label !text-gold-dark">Our History</p>
           <h2 className="font-display text-display-md font-bold text-ink">
-            44 Years of Homemade
+            45 Years of Homemade
           </h2>
           <p className="text-stone-warm mt-3 max-w-xl mx-auto">
-            From a family dream in 1981 to 13× NH&apos;s Best Ice Cream — here&apos;s how we got here.
+            From a family dream in 1981 to 13× NH&apos;s Best Ice Cream.
           </p>
         </div>
 
-        {/* Horizontal scroll on mobile, visible grid on desktop */}
-        <div className="relative">
-          {/* Horizontal line (desktop) */}
-          <div className="hidden md:block absolute top-8 left-0 right-0 h-px bg-raspberry-200" />
+        <div
+          ref={ref}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+        >
+          {MILESTONES.map(({ year, icon: Icon, title, line }, i) => (
+            <motion.div
+              key={year}
+              initial={{ opacity: 0, y: 36 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="relative bg-white rounded-3xl border border-stone-border shadow-card p-7 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-raspberry-50 flex items-center justify-center mb-5">
+                <Icon className="w-6 h-6 text-raspberry-500" />
+              </div>
+              <p className="font-display font-bold text-3xl text-gold-dark mb-1.5">{year}</p>
+              <h3 className="font-semibold text-ink text-base leading-snug mb-2">{title}</h3>
+              <p className="text-sm text-stone-warm leading-relaxed">{line}</p>
+            </motion.div>
+          ))}
+        </div>
 
-          <div ref={sectionRef} className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 md:pb-0 md:grid md:grid-cols-4 lg:grid-cols-6">
-            {timelineData.map((item, i) => {
-              const Icon = ICON_MAP[item.icon] || Star
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 48, scale: 0.94 }}
-                  animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                  transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className={`flex-shrink-0 w-56 md:w-auto relative ${
-                    item.highlight ? 'md:col-span-1' : 'md:col-span-1'
-                  }`}
-                >
-                  {/* Dot */}
-                  <div className={`relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-2 mx-auto mb-4 ${
-                    item.highlight
-                      ? 'bg-raspberry-500 border-raspberry-500 shadow-raspberry'
-                      : 'bg-white border-raspberry-200'
-                  }`}>
-                    <Icon className={`w-6 h-6 ${item.highlight ? 'text-white' : 'text-raspberry-400'}`} />
-                  </div>
-
-                  <div className={`text-center p-4 rounded-2xl ${
-                    item.highlight ? 'bg-white shadow-card border border-raspberry-100' : ''
-                  }`}>
-                    <p className={`font-display font-bold text-lg mb-1 ${
-                      item.highlight ? 'text-raspberry-600' : 'text-raspberry-400'
-                    }`}>
-                      {item.year}
-                    </p>
-                    <h3 className="font-semibold text-ink text-sm leading-snug mb-2">
-                      {item.title}
-                    </h3>
-                    {item.highlight && (
-                      <p className="text-xs text-stone-warm leading-relaxed">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
+        <div className="text-center mt-10">
+          <a href="/our-story" className="btn-secondary text-sm">
+            Read the full story
+          </a>
         </div>
       </div>
     </section>
