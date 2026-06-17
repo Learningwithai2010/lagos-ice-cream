@@ -166,7 +166,7 @@ export default function ChatWidget() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Open AI Flavor Finder"
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-raspberry-500 text-white shadow-raspberry-lg flex items-center justify-center hover:bg-raspberry-600 transition-all duration-300 ${
+        className={`fixed bottom-24 md:bottom-6 right-5 md:right-6 z-50 w-14 h-14 rounded-full bg-raspberry-500 text-white shadow-raspberry-lg flex items-center justify-center hover:bg-raspberry-600 transition-all duration-300 ${
           open ? 'opacity-0 pointer-events-none scale-75' : 'opacity-100 scale-100 animate-chat-bounce'
         }`}
       >
@@ -176,7 +176,7 @@ export default function ChatWidget() {
 
       {/* Window */}
       <div
-        className={`fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] max-w-sm bg-white rounded-3xl shadow-2xl border border-stone-border overflow-hidden transition-all duration-300 origin-bottom-right ${
+        className={`fixed bottom-24 md:bottom-6 right-5 md:right-6 z-50 w-[calc(100vw-2.5rem)] max-w-sm bg-white rounded-3xl shadow-2xl border border-stone-border overflow-hidden transition-all duration-300 origin-bottom-right ${
           open ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
         }`}
         role="dialog"

@@ -44,19 +44,41 @@ export default function SMSAlerts() {
   }
 
   return (
-    <div className="bg-raspberry-gradient rounded-3xl p-8 md:p-10">
-      <div className="max-w-lg mx-auto text-center">
-        <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
-          <Bell className="w-6 h-6 text-white" />
-        </div>
-        <h3 className="font-display font-bold text-2xl md:text-3xl text-white mb-2">
-          Flavor Back in Stock Alerts
-        </h3>
-        <p className="text-white/80 mb-6 text-sm">
-          Get notified when your favorite flavor is scooping. Drop your info below.
-        </p>
+    <div className="relative bg-navy-gradient rounded-3xl overflow-hidden">
+      {/* gold glow accent */}
+      <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+      <div className="relative grid md:grid-cols-2 gap-8 p-8 md:p-12 items-center">
+        {/* Value prop */}
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/15 text-gold-light text-xs font-semibold uppercase tracking-wide mb-5">
+            <Bell className="w-3.5 h-3.5" />
+            Free Flavor Alerts
+          </div>
+          <h3 className="font-display font-bold text-white leading-tight mb-4" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
+            Never miss your<br className="hidden md:block" /> favorite flavor again.
+          </h3>
+          <p className="text-white/75 text-sm leading-relaxed mb-6">
+            Our board changes daily across 50+ rotating flavors. Tell us the one you
+            love and we&apos;ll message you the moment it&apos;s back — so you never make
+            the drive for nothing.
+          </p>
+          <ul className="space-y-2.5">
+            {[
+              'Pick from our most-loved flavors',
+              'A quick heads-up by text or email',
+              'No spam — only your flavor, only when it returns',
+            ].map((b) => (
+              <li key={b} className="flex items-center gap-2.5 text-white/80 text-sm">
+                <CheckCircle className="w-4 h-4 text-gold-light flex-shrink-0" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-white/[0.07] border border-white/15 rounded-2xl p-6 space-y-3 backdrop-blur-sm">
           <input
             type="text"
             name="name"
@@ -64,7 +86,7 @@ export default function SMSAlerts() {
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             required
-            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
+            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm"
           />
 
           <input
@@ -74,14 +96,14 @@ export default function SMSAlerts() {
             value={form.contact}
             onChange={(e) => setForm((f) => ({ ...f, contact: e.target.value }))}
             required
-            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
+            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm"
           />
 
           <select
             name="flavor"
             value={form.flavor}
             onChange={(e) => setForm((f) => ({ ...f, flavor: e.target.value }))}
-            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
+            className="w-full px-4 py-3 rounded-2xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm"
           >
             {POPULAR_FLAVORS.map((f) => (
               <option key={f} value={f} className="text-ink bg-white">
@@ -93,14 +115,14 @@ export default function SMSAlerts() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-2xl bg-white text-raspberry-600 font-semibold text-sm hover:bg-cream-100 transition-colors disabled:opacity-60"
+            className="btn-gold w-full justify-center py-3 disabled:opacity-60"
           >
             {loading ? 'Adding you…' : "Notify Me When It's Back"}
           </button>
+          <p className="text-white/50 text-xs text-center">
+            We&apos;ll only reach out about your flavor. No spam, ever.
+          </p>
         </form>
-        <p className="text-white/50 text-xs mt-3">
-          We&apos;ll only reach out about your flavor. No spam, ever.
-        </p>
       </div>
     </div>
   )

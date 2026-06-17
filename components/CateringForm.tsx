@@ -8,6 +8,7 @@ export default function CateringForm() {
     name: '',
     phone: '',
     email: '',
+    eventType: '',
     date: '',
     eventSize: '',
     halfGallons: '',
@@ -78,12 +79,29 @@ export default function CateringForm() {
         </div>
       </div>
 
-      <div>
-        <label className="block text-xs font-semibold text-stone-warm uppercase tracking-wide mb-1.5">
-          Email
-        </label>
-        <input type="email" name="email" value={form.email} onChange={set('email')}
-          placeholder="your@email.com" className={inputClass} />
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-semibold text-stone-warm uppercase tracking-wide mb-1.5">
+            Email
+          </label>
+          <input type="email" name="email" value={form.email} onChange={set('email')}
+            placeholder="your@email.com" className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-stone-warm uppercase tracking-wide mb-1.5">
+            Event Type
+          </label>
+          <select name="eventType" value={form.eventType} onChange={set('eventType')}
+            className={inputClass}>
+            <option value="">Select...</option>
+            <option>Wedding</option>
+            <option>Birthday</option>
+            <option>Corporate Event</option>
+            <option>Graduation</option>
+            <option>Fundraiser</option>
+            <option>Other</option>
+          </select>
+        </div>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
