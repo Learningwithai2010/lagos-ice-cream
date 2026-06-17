@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Redis } from '@upstash/redis'
+import { isAuthed } from '@/lib/admin-auth'
 
 /**
  * Today's "Scooping Today" board.
@@ -47,8 +48,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
+  // Accept either the admin session cookie (dashboard) or the passcode in body.
   const passcode = process.env.ADMIN_PASSCODE || 'LAGO2025'
-  if (body.passcode !== passcode) {
+  if (!isAuthed(request) && body.passcode !== passcode) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
