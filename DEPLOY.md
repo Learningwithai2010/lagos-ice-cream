@@ -2,35 +2,79 @@
 
 Next.js 14 (App Router) on **Vercel**. Auto-deploys on push to `main`.
 
+- **Production:** https://lagos-ice-cream.vercel.app
+- **Owner dashboard:** https://lagos-ice-cream.vercel.app/admin
+
+## Owner dashboard (`/admin`)
+
+Protected by a passcode (`ADMIN_PASSCODE`, default `LAGO2025`). Logging in sets
+an httpOnly session cookie; all admin APIs verify it server-side.
+
+The dashboard has five tabs:
+- **Catering** — event requests · statuses: New / Contacted / Booked / Completed
+- **Applications** — job applicants · statuses: New / Interviewing / Hired / Rejected
+- **Messages** — contact form · statuses: New / Contacted / Completed
+- **Flavor Alerts** — back-in-stock subscribers · statuses: Active / Notified / Unsubscribed
+- **Flavor Board** — toggle today's "Scooping Today" flavors
+
+Each submission tab supports search, status filter, per-row status change,
+expandable details, and delete. **Change `ADMIN_PASSCODE` from the default
+before sharing the site.**
+
+## Supabase (stores all submissions)
+
+1. Create a project at supabase.com.
+2. **SQL Editor → New query →** paste `supabase/schema.sql` → **Run**. This
+   creates `catering_requests`, `job_applications`, `contact_requests`,
+   `flavor_alert_signups` (with statuses, timestamps, RLS on).
+3. **Project Settings → API** → copy the Project URL, the `anon` key, and the
+   `service_role` key into the env vars below.
+
+All DB access is server-side via the service-role key (RLS stays on, no public
+policies) — submission PII is never exposed to the browser.
+
 ## Environment variables
 
-Set these in **Vercel → Project → Settings → Environment Variables** (and in
-`.env.local` for local dev — see `.env.local.example`).
+Set in **Vercel → Settings → Environment Variables** (and `.env.local` locally —
+see `.env.local.example`).
 
 | Variable | Used by | Required? | Notes |
 |---|---|---|---|
-| `ANTHROPIC_API_KEY` | `/api/chat` (concierge chat) | Recommended | Without it, chat uses the built-in offline keyword fallback — never looks broken. |
-| `ADMIN_PASSCODE` | `/api/flavor-board` POST, `/admin` | Recommended | Owner's passcode for the "Scooping Today" board. Defaults to `LAGO2025` if unset. |
-| `OWNER_EMAIL` | `/api/lead`, `/api/contact` | Recommended | Where catering / alert / contact leads are emailed. Use `lagosicecream@yahoo.com`. |
-| `RESEND_API_KEY` | `/api/lead`, `/api/contact` | Recommended | From resend.com. Without it, leads are logged server-side and the form still succeeds. |
-| `LEAD_FROM_EMAIL` | `/api/lead`, `/api/contact` | Optional | Verified Resend sender. Defaults to `onboarding@resend.dev` (fine for testing). |
-| `UPSTASH_REDIS_REST_URL` | `/api/flavor-board` | Recommended | Durable shared state for the live board. Without it, falls back to in-memory (resets on cold start, not shared across instances). |
-| `UPSTASH_REDIS_REST_TOKEN` | `/api/flavor-board` | Recommended | Pair with the URL above. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase storage + dashboard | **For storage** | Project URL. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-side DB (inserts + dashboard) | **For storage** | Service-role key. Server-only — never shipped to the browser. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase client (fallback) | Optional | Wired but not required (all DB ops are server-side). |
+| `ADMIN_PASSCODE` | `/admin` login, `/api/flavor-board` | **Recommended** | Dashboard passcode. Defaults to `LAGO2025` — change it. |
+| `OWNER_EMAIL` | lead + careers + contact emails | Recommended | Where notifications go. Use `lagosicecream@yahoo.com`. |
+| `RESEND_API_KEY` | email notifications | Recommended | From resend.com. Without it, submissions still save + the form succeeds. |
+| `LEAD_FROM_EMAIL` | email "from" | Optional | Verified Resend sender. Defaults to `onboarding@resend.dev` (testing only). |
+| `ANTHROPIC_API_KEY` | `/api/chat` concierge | Recommended | Without it, chat uses the offline keyword fallback. |
+| `UPSTASH_REDIS_REST_URL` | flavor board state | Recommended | Vercel → Storage → Upstash (2-click). |
+| `UPSTASH_REDIS_REST_TOKEN` | flavor board state | Recommended | Pair with the URL. |
 
-### Quick setup notes
-- **Upstash**: add via Vercel → Storage → Upstash (2-click integration). It injects
-  `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` automatically.
-- **Resend**: create a key at resend.com, add a verified sending domain for production
-  (the `onboarding@resend.dev` default works for testing but not custom domains).
+## Email notifications
+On every catering request, job application, and contact message, an email is
+sent to `OWNER_EMAIL` via Resend (job applications include the resume as an
+attachment). Notifications and Supabase storage are independent — either can be
+configured without the other.
 
 ## Graceful degradation (so a demo never breaks)
-- No `ANTHROPIC_API_KEY` → chat answers from the offline keyword fallback.
-- No `RESEND_API_KEY` / `OWNER_EMAIL` → leads are logged and the form still confirms success.
-- No Upstash vars → board uses in-memory state (works in one instance; not shared).
+- No Supabase vars → forms still submit + email; dashboard shows a "not
+  connected" notice instead of data.
+- No `RESEND_API_KEY` / `OWNER_EMAIL` → submissions still save to Supabase; form confirms success.
+- No `ANTHROPIC_API_KEY` → chat uses the offline keyword fallback.
+- No Upstash vars → board uses in-memory state (works per-instance; not shared).
 
 ## Deployment protection
-Ensure **production is public**: Vercel → Settings → Deployment Protection →
-disable Vercel Authentication for Production. A 401 on a cold-email link kills the pitch.
+Keep **production public**: Vercel → Settings → Deployment Protection → disable
+Vercel Authentication for Production. (Note: `/admin` is still passcode-gated.)
+
+## Remaining setup checklist
+- [ ] Run `supabase/schema.sql` in Supabase
+- [ ] Add `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in Vercel
+- [ ] Add `RESEND_API_KEY` + `OWNER_EMAIL` for notifications
+- [ ] Change `ADMIN_PASSCODE` from the default
+- [ ] (Optional) `ANTHROPIC_API_KEY`, Upstash pair
+- [ ] Redeploy after adding env vars
 
 ## Local dev
 ```bash
