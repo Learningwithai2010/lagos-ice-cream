@@ -127,7 +127,10 @@ export async function POST(request: NextRequest) {
   const message = body.message.slice(0, 500)
 
   try {
-    const client = new Anthropic({ apiKey })
+    // Fail fast: if the key is missing/expired/over-quota, don't let the SDK's
+    // default retry+backoff stall the widget — the offline finder answers
+    // instantly instead. Keeps the chat snappy with no dependency on credits.
+    const client = new Anthropic({ apiKey, maxRetries: 0, timeout: 8000 })
     const response = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 300,
