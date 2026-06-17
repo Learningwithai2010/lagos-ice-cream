@@ -55,7 +55,7 @@ export default function VisitSection() {
                   71 Lafayette Road (Route 1)<br />
                   Rye, NH 03870
                 </p>
-                <a href={business.phoneTel} className="flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors">
+                <a href={`tel:${business.phoneTel}`} className="flex items-center gap-2 text-sm font-medium text-raspberry-600 hover:text-raspberry-700 transition-colors">
                   <Phone className="w-4 h-4" />
                   (603) 964-9880
                 </a>

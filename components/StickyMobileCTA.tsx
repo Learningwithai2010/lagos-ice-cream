@@ -27,7 +27,7 @@ export default function StickyMobileCTA() {
     >
       <div className="bg-white/95 backdrop-blur-md border-t border-stone-border shadow-[0_-4px_20px_rgba(27,45,77,0.12)] grid grid-cols-3">
         <a
-          href={business.phoneTel}
+          href={`tel:${business.phoneTel}`}
           className="flex flex-col items-center justify-center gap-1 py-2.5 text-ink-light active:bg-cream-200"
         >
           <Phone className="w-5 h-5 text-raspberry-500" />
