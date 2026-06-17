@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
-import StickyMobileCTA from '@/components/StickyMobileCTA'
 import CareerApplicationForm from '@/components/CareerApplicationForm'
 import HiringDashboard from '@/components/HiringDashboard'
 import { positions } from '@/lib/careers-data'
@@ -97,7 +96,6 @@ export default function CareersPage() {
       </main>
       <Footer />
       <ChatWidget />
-      <StickyMobileCTA />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
+import StickyMobileCTA from '@/components/StickyMobileCTA'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-body bg-cream text-ink antialiased overflow-x-hidden">
         {children}
+        <StickyMobileCTA />
       </body>
     </html>
   )

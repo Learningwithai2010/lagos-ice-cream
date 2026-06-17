@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { IceCream2, Phone, Mail, MapPin, ExternalLink } from 'lucide-react'
+import { business } from '../lib/business-data'
 
 const FOOTER_LINKS = [
   {
@@ -8,20 +9,20 @@ const FOOTER_LINKS = [
       { label: 'Flavors', href: '/flavors' },
       { label: 'Menu', href: '/menu' },
       { label: 'Our Story', href: '/our-story' },
-      { label: 'Our Dogs', href: '/our-dogs' },
+      { label: 'Careers', href: '/careers' },
     ],
   },
   {
     title: 'Visit',
     links: [
       { label: 'Directions & Hours', href: '/visit' },
-      { label: 'Catering Events', href: '/visit#catering' },
-      { label: 'Half Gallons', href: '/menu#half-gallons' },
+      { label: 'Catering & Events', href: '/#catering' },
+      { label: 'Apply for a Job', href: '/careers#apply' },
     ],
   },
 ]
 
-const GOOGLE_REVIEW_URL = 'https://www.google.com/search?q=Lago%27s+Ice+Cream+Rye+NH+reviews'
+const GOOGLE_REVIEW_URL = business.links.googleReviews
 
 export default function Footer() {
   return (
