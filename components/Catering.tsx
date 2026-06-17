@@ -63,9 +63,9 @@ export default function Catering() {
             </div>
 
             {/* Benefits */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-7">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-7">
               {BENEFITS.map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex gap-3">
+                <div key={title} className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white border border-stone-border flex items-center justify-center flex-shrink-0">
                     <Icon className="w-5 h-5 text-raspberry-500" />
                   </div>

@@ -58,7 +58,7 @@ export default function Testimonials() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="reviews" className="relative py-24 md:py-32 overflow-hidden">
+    <section id="reviews" className="relative py-16 md:py-28 overflow-hidden">
       {/* Seacoast photo background */}
       <Image
         src="/images/seacoast-summer.jpg"
