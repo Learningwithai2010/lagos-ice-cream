@@ -15,7 +15,7 @@ function Stars({ count }: { count: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={`w-4 h-4 ${i < count ? 'text-amber-400' : 'text-slate-200'}`}
+          className={`w-4 h-4 ${i < count ? 'text-gold fill-gold' : 'text-stone-border'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           aria-hidden="true"
@@ -81,8 +81,8 @@ export default function Testimonials() {
         >
           <div>
             <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-6 h-px bg-raspberry-500" aria-hidden="true" />
-              <span className="font-body text-xs font-semibold tracking-widest uppercase text-raspberry-500">
+              <div className="w-6 h-px bg-gold-dark" aria-hidden="true" />
+              <span className="font-body text-xs font-semibold tracking-widest uppercase text-gold-dark">
                 What Locals Say
               </span>
             </div>
@@ -90,28 +90,32 @@ export default function Testimonials() {
               className="font-display font-bold text-ink leading-tight"
               style={{ fontSize: 'clamp(1.875rem, 4.5vw, 3rem)', lineHeight: 1.1 }}
             >
-              Straight from the
+              Loved by {business.reviewCount.toLocaleString()}+
               <br />
-              Seacoast.
+              ice cream lovers.
             </h2>
           </div>
 
-          {/* Google badge */}
-          <div className="flex items-center gap-3 bg-white border border-stone-border rounded-2xl px-5 py-3 shadow-card self-start md:self-auto">
-            <GoogleIcon />
-            <div>
-              <p className="font-body text-xs text-stone-warm leading-none mb-0.5">Reviews from</p>
-              <p className="font-body text-sm font-semibold text-ink leading-none">Google</p>
-            </div>
-            <div className="ml-2 pl-3 border-l border-stone-border">
-              <p className="font-display text-xl font-bold text-ink leading-none">{business.rating}</p>
-              <div className="flex gap-0.5 mt-0.5" aria-label={`${business.rating} stars`} role="img">
+          {/* Google rating badge */}
+          <div className="flex items-center gap-4 bg-white border border-stone-border rounded-2xl px-6 py-4 shadow-card self-start md:self-auto">
+            <div className="text-center">
+              <p className="font-display text-4xl font-bold text-ink leading-none">{business.rating}</p>
+              <div className="flex gap-0.5 mt-1.5" aria-label={`${business.rating} stars`} role="img">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <svg key={i} className="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <svg key={i} className="w-3.5 h-3.5 text-gold fill-gold" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 ))}
               </div>
+            </div>
+            <div className="pl-4 border-l border-stone-border">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <GoogleIcon />
+                <p className="font-body text-sm font-semibold text-ink leading-none">Google</p>
+              </div>
+              <p className="font-body text-xs text-stone-warm leading-tight">
+                {business.reviewCount.toLocaleString()} verified reviews
+              </p>
             </div>
           </div>
         </motion.div>
