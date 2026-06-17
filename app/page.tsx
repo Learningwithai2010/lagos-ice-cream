@@ -10,6 +10,7 @@ import ChatWidget from '@/components/ChatWidget'
 import Catering from '@/components/Catering'
 import SMSAlerts from '@/components/SMSAlerts'
 import Testimonials from '@/components/Testimonials'
+import CareersPreview from '@/components/CareersPreview'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -59,6 +60,7 @@ export default function Home() {
           </div>
         </section>
 
+        <CareersPreview />
         <VisitSection />
       </main>
       <Footer />
