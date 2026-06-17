@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, IceCream2 } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const NAV_LINKS = [
   { href: '/flavors', label: 'Flavors' },
   { href: '/menu', label: 'Menu' },
+  { href: '/#catering', label: 'Catering' },
   { href: '/our-story', label: 'Our Story' },
-  { href: '/our-dogs', label: 'Our Dogs' },
   { href: '/visit', label: 'Visit' },
 ]
 
@@ -38,16 +39,15 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-[72px] flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group" aria-label="Lago's Ice Cream — Home">
-          <span className="w-8 h-8 rounded-full bg-raspberry-500 flex items-center justify-center group-hover:bg-raspberry-600 transition-colors">
-            <IceCream2 className="w-4 h-4 text-white" />
-          </span>
-          <span className="font-display font-bold text-lg text-ink leading-tight">
-            Lago&apos;s
-            <span className="block text-[10px] font-body font-medium tracking-widest uppercase text-stone-warm -mt-0.5">
-              Ice Cream
-            </span>
-          </span>
+        <Link href="/" className="flex items-center group" aria-label="Lago's Ice Cream — Home">
+          <Image
+            src="/images/real/logo.png"
+            alt="Lago's Ice Cream"
+            width={150}
+            height={64}
+            priority
+            className="h-10 md:h-12 w-auto transition-transform duration-200 group-hover:scale-[1.03]"
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -70,9 +70,12 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <a href="tel:6039649880" className="text-sm font-medium text-stone-warm hover:text-raspberry-600 transition-colors">
-            603-964-9880
+          <a href="tel:+16039649880" className="text-sm font-semibold text-ink-light hover:text-raspberry-600 transition-colors">
+            (603) 964-9880
           </a>
+          <Link href="/#catering" className="btn-gold py-2 px-5 text-sm">
+            Book Catering
+          </Link>
           <Link href="/flavors" className="btn-primary py-2 px-5 text-sm">
             Today&apos;s Flavors
           </Link>
@@ -108,9 +111,12 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <a href="tel:6039649880" className="block text-center py-3 px-4 rounded-2xl border-2 border-stone-border text-sm font-semibold text-ink-light mb-2">
-            Call 603-964-9880
+          <a href="tel:+16039649880" className="block text-center py-3 px-4 rounded-2xl border-2 border-stone-border text-sm font-semibold text-ink-light mb-2">
+            Call (603) 964-9880
           </a>
+          <Link href="/#catering" className="btn-gold w-full text-sm justify-center mb-2">
+            Book Catering
+          </Link>
           <Link href="/flavors" className="btn-primary w-full text-sm justify-center">
             See Today&apos;s Flavors
           </Link>

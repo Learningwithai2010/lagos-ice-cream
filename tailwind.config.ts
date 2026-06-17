@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         cream: {
-          DEFAULT: '#FFFAF5',
+          DEFAULT: '#FBF7EF',
           50: '#FEFCF8',
-          100: '#FFFAF5',
-          200: '#FFF0F7',
-          300: '#FFE0EE',
+          100: '#FBF7EF',
+          200: '#F4EDE0',  /* warm cream — alternating section bg (was pink) */
+          300: '#EBE2CF',  /* deeper cream / soft borders */
         },
         ink: {
           DEFAULT: '#1B2D4D',
@@ -47,9 +47,10 @@ const config: Config = {
           300:   '#E07CB8',
         },
         gold: {
-          DEFAULT: '#D4A574',   /* Gold/Bronze — award wall, cone details */
-          light:   '#EDD5B0',
-          dark:    '#B8883A',
+          DEFAULT: '#C8912F',   /* Gold/Bronze — premium accent, award wall, catering CTA */
+          light:   '#EAD9B0',
+          soft:    '#F6EBD2',   /* gold-tinted wash for badges/sections */
+          dark:    '#9A6E1E',
         },
         amber: {
           warm: '#D97706',
@@ -83,15 +84,19 @@ const config: Config = {
       },
       boxShadow: {
         'card': '0 1px 3px rgba(27,45,77,0.04), 0 4px 12px rgba(27,45,77,0.06)',
-        'card-hover': '0 4px 8px rgba(27,45,77,0.06), 0 16px 32px rgba(27,45,77,0.1)',
+        'card-hover': '0 6px 14px rgba(27,45,77,0.08), 0 20px 40px rgba(27,45,77,0.12)',
         'raspberry': '0 8px 24px rgba(46,80,144,0.25)',
         'raspberry-lg': '0 16px 48px rgba(46,80,144,0.2)',
-        'warm': '0 4px 16px rgba(212,165,116,0.3)',
+        'navy': '0 8px 24px rgba(46,80,144,0.25)',
+        'gold': '0 8px 24px rgba(200,145,47,0.32)',
+        'warm': '0 4px 16px rgba(200,145,47,0.25)',
       },
       backgroundImage: {
-        'hero-warm': 'linear-gradient(160deg, #FFFAF5 0%, #FFF0F7 50%, #FFE0EE 100%)',
+        'hero-warm': 'linear-gradient(160deg, #FBF7EF 0%, #F4EDE0 55%, #EBE2CF 100%)',
         'raspberry-gradient': 'linear-gradient(135deg, #2E5090 0%, #1E3870 100%)',
-        'warm-gradient': 'linear-gradient(135deg, #FFFAF5 0%, #FFF0F7 100%)',
+        'navy-gradient': 'linear-gradient(135deg, #2E5090 0%, #1E3870 100%)',
+        'gold-gradient': 'linear-gradient(135deg, #D9A93E 0%, #B8883A 100%)',
+        'warm-gradient': 'linear-gradient(135deg, #FBF7EF 0%, #F4EDE0 100%)',
       },
       animation: {
         'fade-up': 'fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards',

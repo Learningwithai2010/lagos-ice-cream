@@ -96,7 +96,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-tight px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/40">
-          <p>© 2025 Lago&apos;s Ice Cream. All rights reserved.</p>
+          <p>© 2026 Lago&apos;s Ice Cream. All rights reserved.</p>
           <p>13× NH&apos;s Best Ice Cream — NH Magazine 2009–2025</p>
         </div>
       </div>

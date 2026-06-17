@@ -24,7 +24,7 @@
   }
 
   ::selection {
-    background-color: #FFF0F7;
+    background-color: #EAD9B0;
     color: #1B2D4D;
   }
 
@@ -48,16 +48,23 @@
     @apply max-w-7xl mx-auto;
   }
 
+  /* Primary = navy fill (most common action) */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white bg-raspberry-500 hover:bg-raspberry-600 hover:scale-[1.03] transition-all duration-150 shadow-raspberry hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-raspberry-500 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white bg-raspberry-500 hover:bg-raspberry-600 hover:scale-[1.02] transition-all duration-150 shadow-navy hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry-500 focus-visible:ring-offset-2;
   }
 
+  /* Gold = premium revenue action (catering / events) */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-ink bg-gold-gradient hover:scale-[1.02] transition-all duration-150 shadow-gold hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2;
+  }
+
+  /* Secondary = quiet navy-tinted action */
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-raspberry-600 bg-pink-50 border border-pink-200 hover:bg-pink-100 hover:scale-[1.03] transition-all duration-150 hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-raspberry-600 bg-raspberry-50 border border-raspberry-100 hover:bg-raspberry-100 hover:scale-[1.02] transition-all duration-150 hover:-translate-y-0.5;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-ink border-2 border-stone-border hover:border-raspberry-300 hover:text-raspberry-600 hover:scale-[1.03] transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-ink border-2 border-stone-border hover:border-raspberry-300 hover:text-raspberry-600 hover:scale-[1.02] transition-all duration-150;
   }
 
   .card-base {

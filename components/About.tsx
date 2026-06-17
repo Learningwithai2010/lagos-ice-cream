@@ -111,8 +111,8 @@ export default function About() {
 
               <div className="flex items-center gap-3 mt-6" aria-hidden="true">
                 <div className="w-10 h-[3px] rounded-full bg-raspberry-500" />
-                <div className="w-4 h-[3px] rounded-full bg-[#E8B4D0]" />
-                <div className="w-2 h-[3px] rounded-full bg-[#E8B4D0]/40" />
+                <div className="w-4 h-[3px] rounded-full bg-gold" />
+                <div className="w-2 h-[3px] rounded-full bg-gold/40" />
               </div>
             </div>
 
