@@ -98,16 +98,19 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    return NextResponse.json({ error: 'Chat service unavailable', fallback: true }, { status: 503 })
-  }
-
   let body: { message: string; sessionCount?: number }
   try {
     body = await request.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
+
+  // No API key (or a non-working one) is a supported state: the widget has a
+  // full offline keyword "Flavor Finder" fallback. Signal it with fallback:true
+  // and a 200 so the client degrades cleanly and nothing errors in the logs.
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    return NextResponse.json({ fallback: true }, { status: 200 })
   }
 
   if (!body.message || typeof body.message !== 'string') {
@@ -137,7 +140,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ response: text })
   } catch (err) {
-    console.error('Claude API error:', err)
-    return NextResponse.json({ error: 'Service error', fallback: true }, { status: 500 })
+    // A bad/expired key, quota, or network blip should never surface as a 500 —
+    // the visitor still gets a helpful answer from the offline fallback.
+    console.error('Claude API error (falling back to offline finder):', err)
+    return NextResponse.json({ fallback: true }, { status: 200 })
   }
 }

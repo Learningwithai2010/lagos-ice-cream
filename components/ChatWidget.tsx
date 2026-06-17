@@ -138,7 +138,10 @@ export default function ChatWidget() {
   const runAction = (action: ChatAction) => {
     setOpen(false)
     if (action.kind === 'catering') {
-      window.location.hash = '#catering'
+      // Works from any page: scroll if the section is here, else go home to it.
+      const el = document.getElementById('catering')
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      else window.location.href = '/#catering'
       return
     }
     // Filter the explorer, then scroll to it. FlavorExplorer listens for this event.

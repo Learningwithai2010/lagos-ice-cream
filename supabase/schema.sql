@@ -66,6 +66,16 @@ create table if not exists public.flavor_alert_signups (
     check (status in ('Active','Notified','Unsubscribed'))
 );
 
+-- ── "Scooping Today" flavor board (single shared row) ───────────────────────
+-- Powers the homepage board + the /admin "Flavor Board" tab. One row (id =
+-- 'today') holds the list of flavor ids the owner has toggled on.
+create table if not exists public.flavor_board (
+  id         text primary key,
+  flavors    jsonb not null default '[]'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.flavor_board enable row level security;
+
 -- Indexes for the dashboard's default newest-first ordering.
 create index if not exists catering_requests_created_idx    on public.catering_requests (created_at desc);
 create index if not exists job_applications_created_idx      on public.job_applications (created_at desc);

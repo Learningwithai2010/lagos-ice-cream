@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import VisitSection from '@/components/VisitSection'
 import CateringForm from '@/components/CateringForm'
+import ContactForm from '@/components/ContactForm'
 import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
 
@@ -43,6 +44,25 @@ export default function VisitPage() {
               </p>
             </div>
             <CateringForm />
+          </div>
+        </section>
+
+        {/* Send a message */}
+        <section id="contact" className="section-pad bg-cream-100 scroll-mt-20">
+          <div className="container-tight max-w-2xl">
+            <div className="text-center mb-10">
+              <p className="section-label">Get in Touch</p>
+              <h2 className="font-display text-display-md font-bold text-ink mb-3">
+                Send Us a Message
+              </h2>
+              <p className="text-stone-warm">
+                Questions about flavors, your next party, or just saying hello — we&apos;d love to
+                hear from you. We typically reply within 24 hours.
+              </p>
+            </div>
+            <div className="bg-white rounded-3xl border border-stone-border shadow-card-hover p-6 md:p-9">
+              <ContactForm />
+            </div>
           </div>
         </section>
       </main>

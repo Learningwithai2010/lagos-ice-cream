@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Redis } from '@upstash/redis'
 import { isAuthed } from '@/lib/admin-auth'
+import { readFlavorBoard, writeFlavorBoard, isSupabaseConfigured } from '@/lib/supabase'
 
 /**
  * Today's "Scooping Today" board.
  *  - Public GET reads the current board.
  *  - Owner POST (passcode-gated, ADMIN_PASSCODE) updates it from /admin.
  *
- * State lives in Upstash Redis when configured, so every visitor sees the
- * owner's changes. If Upstash env vars are missing (local dev / demo without
- * setup), it falls back to an in-memory store so nothing breaks.
+ * Persistence priority, all best-effort and non-blocking:
+ *   1. Supabase  — the database that already powers every form (preferred; no
+ *      extra service to configure). Durable + shared across all visitors.
+ *   2. Upstash Redis — used only if its env vars are set (legacy/optional).
+ *   3. In-memory — last-resort fallback (per instance; resets on cold start) so
+ *      a demo without any storage still works within a session.
  */
 
 const BOARD_KEY = 'lago:flavor-board'
@@ -25,13 +29,23 @@ const redis =
 let memoryBoard: Board | null = null
 
 async function readBoard(): Promise<Board | null> {
+  const fromDb = await readFlavorBoard()
+  if (fromDb) return fromDb
   if (redis) return (await redis.get<Board>(BOARD_KEY)) ?? null
   return memoryBoard
 }
 
-async function writeBoard(board: Board): Promise<void> {
-  if (redis) await redis.set(BOARD_KEY, board)
-  else memoryBoard = board
+/** Returns true when the board durably persisted (Supabase or Redis). */
+async function writeBoard(board: Board): Promise<boolean> {
+  let persisted = false
+  if (await writeFlavorBoard(board.flavors, board.updatedAt)) persisted = true
+  if (redis) {
+    await redis.set(BOARD_KEY, board)
+    persisted = true
+  }
+  // Always keep the in-memory copy too, as a same-instance read-through.
+  memoryBoard = board
+  return persisted
 }
 
 export async function GET() {
@@ -59,7 +73,12 @@ export async function POST(request: NextRequest) {
   }
 
   const board: Board = { flavors: body.flavors, updatedAt: new Date().toISOString() }
-  await writeBoard(board)
+  const persisted = await writeBoard(board)
 
-  return NextResponse.json({ ok: true, updatedAt: board.updatedAt, persisted: Boolean(redis) })
+  return NextResponse.json({
+    ok: true,
+    updatedAt: board.updatedAt,
+    persisted,
+    storage: persisted ? (isSupabaseConfigured() ? 'supabase' : 'redis') : 'memory',
+  })
 }

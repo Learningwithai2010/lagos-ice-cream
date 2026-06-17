@@ -47,9 +47,9 @@ see `.env.local.example`).
 | `OWNER_EMAIL` | lead + careers + contact emails | Recommended | Where notifications go. Use `lagosicecream@yahoo.com`. |
 | `RESEND_API_KEY` | email notifications | Recommended | From resend.com. Without it, submissions still save + the form succeeds. |
 | `LEAD_FROM_EMAIL` | email "from" | Optional | Verified Resend sender. Defaults to `onboarding@resend.dev` (testing only). |
-| `ANTHROPIC_API_KEY` | `/api/chat` concierge | Recommended | Without it, chat uses the offline keyword fallback. |
-| `UPSTASH_REDIS_REST_URL` | flavor board state | Recommended | Vercel → Storage → Upstash (2-click). |
-| `UPSTASH_REDIS_REST_TOKEN` | flavor board state | Recommended | Pair with the URL. |
+| `ANTHROPIC_API_KEY` | `/api/chat` concierge | Optional | Without it (or with a non-working key), chat uses the offline keyword fallback. The route never errors — it always returns a helpful answer. |
+| `UPSTASH_REDIS_REST_URL` | flavor board state | Optional (legacy) | No longer required — the board now persists in **Supabase**. Only used if set. |
+| `UPSTASH_REDIS_REST_TOKEN` | flavor board state | Optional (legacy) | Pair with the URL. |
 
 ## Email notifications
 On every catering request, job application, and contact message, an email is
@@ -62,7 +62,9 @@ configured without the other.
   connected" notice instead of data.
 - No `RESEND_API_KEY` / `OWNER_EMAIL` → submissions still save to Supabase; form confirms success.
 - No `ANTHROPIC_API_KEY` → chat uses the offline keyword fallback.
-- No Upstash vars → board uses in-memory state (works per-instance; not shared).
+- Flavor board persists in Supabase (run `supabase/schema.sql` so the
+  `flavor_board` table exists). With no storage at all it falls back to
+  in-memory state (works per-instance; not shared).
 
 ## Deployment protection
 Keep **production public**: Vercel → Settings → Deployment Protection → disable

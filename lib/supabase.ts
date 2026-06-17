@@ -64,3 +64,51 @@ export async function saveSubmission(
     return false
   }
 }
+
+/**
+ * "Scooping Today" flavor board persistence (single shared row).
+ *
+ * Stored in Supabase — the same database that already powers every form — so the
+ * owner's board changes are durable and visible to every visitor with no extra
+ * service. Falls back to null when Supabase isn't configured (or the table isn't
+ * created yet), letting the API route use its in-memory fallback instead.
+ */
+const BOARD_TABLE = 'flavor_board'
+const BOARD_ID = 'today'
+
+export type FlavorBoard = { flavors: string[]; updatedAt: string }
+
+export async function readFlavorBoard(): Promise<FlavorBoard | null> {
+  const db = getSupabaseAdmin()
+  if (!db) return null
+  try {
+    const { data, error } = await db
+      .from(BOARD_TABLE)
+      .select('flavors, updated_at')
+      .eq('id', BOARD_ID)
+      .maybeSingle()
+    if (error || !data) return null
+    return { flavors: (data.flavors as string[]) ?? [], updatedAt: data.updated_at as string }
+  } catch {
+    return null
+  }
+}
+
+/** Returns true when the write durably persisted to Supabase. */
+export async function writeFlavorBoard(flavors: string[], updatedAt: string): Promise<boolean> {
+  const db = getSupabaseAdmin()
+  if (!db) return false
+  try {
+    const { error } = await db
+      .from(BOARD_TABLE)
+      .upsert({ id: BOARD_ID, flavors, updated_at: updatedAt })
+    if (error) {
+      console.error('[supabase] flavor board upsert failed:', error.message)
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[supabase] flavor board upsert threw:', err)
+    return false
+  }
+}

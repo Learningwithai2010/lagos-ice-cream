@@ -90,7 +90,7 @@ export default function OurDogsPage() {
                   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format',
                   'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&q=80&auto=format',
                   'https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=600&q=80&auto=format',
-                  'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&q=80&auto=format',
+                  'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&q=80&auto=format',
                   'https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=600&q=80&auto=format',
                 ].map((src, i) => (
                   <div key={i} className="relative h-48 rounded-2xl overflow-hidden">
