@@ -86,10 +86,7 @@ export default function Testimonials() {
                 What Locals Say
               </span>
             </div>
-            <h2
-              className="font-display font-bold text-ink leading-tight"
-              style={{ fontSize: 'clamp(1.875rem, 4.5vw, 3rem)', lineHeight: 1.1 }}
-            >
+            <h2 className="font-display text-display-md font-bold text-ink">
               Loved by {business.reviewCount.toLocaleString()}+
               <br />
               ice cream lovers.

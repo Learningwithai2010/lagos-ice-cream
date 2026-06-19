@@ -67,8 +67,8 @@ export default function Hero() {
         {/* Photo card — present but not competing with text */}
         <motion.div variants={fade} custom={3} initial="hidden" animate="show" className="relative h-44 rounded-2xl overflow-hidden shadow-card mb-5">
           <Image
-            src="/images/real/storefront-banner.jpeg"
-            alt="A row of freshly scooped homemade ice cream flavors at Lago's"
+            src="/images/real/banner.png"
+            alt="Lago's ice cream stand in Rye, NH at golden hour, with customers lined up at the window"
             fill
             priority
             sizes="100vw"
@@ -112,8 +112,8 @@ export default function Hero() {
       <section className="hidden md:flex relative min-h-screen items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/real/storefront-banner.jpeg"
-            alt="A row of freshly scooped homemade ice cream flavors at Lago's"
+            src="/images/real/banner.png"
+            alt="Lago's ice cream stand in Rye, NH at golden hour, with customers lined up at the window"
             fill
             priority
             sizes="100vw"
@@ -123,7 +123,7 @@ export default function Hero() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(100deg, rgba(251,247,239,0.985) 0%, rgba(251,247,239,0.96) 40%, rgba(251,247,239,0.78) 58%, rgba(27,45,77,0.12) 80%, rgba(27,45,77,0.32) 100%)',
+                'linear-gradient(100deg, rgba(251,247,239,0.97) 0%, rgba(251,247,239,0.88) 38%, rgba(251,247,239,0.55) 56%, rgba(27,45,77,0.08) 76%, rgba(27,45,77,0.36) 100%)',
             }}
           />
         </div>
@@ -132,33 +132,33 @@ export default function Hero() {
           <div className="max-w-xl">
             <motion.div variants={fade} custom={0} initial="hidden" animate="show" className="flex flex-wrap items-center gap-2.5 mb-6">
               <StatusPill status={status} />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide bg-gold-soft text-gold-dark border border-gold-light">
+                <Star className="w-3 h-3 fill-gold-dark" />
+                13× NH&apos;s Best
+              </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/80 border border-stone-border text-ink">
                 <Star className="w-3.5 h-3.5 fill-gold text-gold" />
                 {business.rating} · {business.reviewCount.toLocaleString()} reviews
               </span>
             </motion.div>
 
-            <motion.p variants={fade} custom={1} initial="hidden" animate="show" className="text-sm font-semibold uppercase tracking-[0.14em] text-gold-dark mb-4">
-              13× NH&apos;s Best Ice Cream — NH Magazine
-            </motion.p>
-
             <motion.h1
               variants={fade}
-              custom={2}
+              custom={1}
               initial="hidden"
               animate="show"
-              className="font-display font-bold text-ink leading-[1.02] tracking-tight mb-5 text-balance"
-              style={{ fontSize: 'clamp(2.75rem, 7vw, 5rem)' }}
+              className="font-display font-bold text-ink leading-[1.0] tracking-[-0.02em] mb-5 text-balance"
+              style={{ fontSize: 'clamp(3rem, 7vw, 5.25rem)' }}
             >
               Handcrafted on the<br /> Seacoast <span className="text-raspberry-500">since 1981.</span>
             </motion.h1>
 
-            <motion.p variants={fade} custom={3} initial="hidden" animate="show" className="text-lg text-ink-light leading-relaxed mb-8 max-w-md">
+            <motion.p variants={fade} custom={2} initial="hidden" animate="show" className="text-lg text-ink-light leading-relaxed mb-8 max-w-md">
               Over 50 homemade flavors, scooped fresh in Rye, New Hampshire.
-              Four generations. One family recipe.
+              Four generations, one family recipe.
             </motion.p>
 
-            <motion.div variants={fade} custom={4} initial="hidden" animate="show" className="flex flex-row gap-3 mb-9">
+            <motion.div variants={fade} custom={3} initial="hidden" animate="show" className="flex flex-row gap-3 mb-9">
               <Link href="/flavors" className="btn-primary text-base py-3.5 px-7">
                 See Today&apos;s Flavors
                 <ArrowRight className="w-4 h-4" />
@@ -169,7 +169,7 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            <motion.div variants={fade} custom={5} initial="hidden" animate="show" className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm font-medium text-ink-light">
+            <motion.div variants={fade} custom={4} initial="hidden" animate="show" className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm font-medium text-ink-light">
               <span className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-gold-dark flex-shrink-0" />
                 Open Daily · 1–9 PM (Seasonal)

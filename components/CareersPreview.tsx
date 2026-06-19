@@ -21,7 +21,7 @@ export default function CareersPreview() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="section-label !text-gold-dark">We&apos;re Hiring</p>
-            <h2 className="font-display font-bold text-ink leading-tight mb-4" style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}>
+            <h2 className="font-display text-display-md font-bold text-ink mb-4">
               Join the Lago&apos;s team.
             </h2>
             <p className="text-ink-light text-lg leading-relaxed mb-6">

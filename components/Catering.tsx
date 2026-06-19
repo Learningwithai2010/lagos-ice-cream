@@ -30,7 +30,7 @@ export default function Catering() {
           className="text-center max-w-2xl mx-auto mb-12"
         >
           <p className="section-label !text-gold-dark">Events & Catering</p>
-          <h2 className="font-display font-bold text-ink leading-tight" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)' }}>
+          <h2 className="font-display text-display-md font-bold text-ink">
             Bring Lago&apos;s to your <span className="text-raspberry-500">next event.</span>
           </h2>
           <p className="text-ink-light mt-4 text-lg leading-relaxed">
@@ -47,13 +47,13 @@ export default function Catering() {
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Real photo */}
-            <div className="relative h-52 md:h-64 rounded-3xl overflow-hidden shadow-card mb-7">
+            <div className="group relative h-52 md:h-64 rounded-3xl overflow-hidden shadow-card mb-7">
               <Image
                 src="/images/real/storefront-banner.jpeg"
                 alt="A row of Lago's homemade ice cream flavors ready to serve"
                 fill
                 sizes="(max-width: 1024px) 100vw, 600px"
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-5 flex items-center gap-2 text-white">

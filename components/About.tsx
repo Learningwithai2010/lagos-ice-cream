@@ -57,8 +57,8 @@ export default function About() {
               className="absolute -bottom-8 -right-4 md:-right-8 w-36 h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden shadow-xl border-4 border-cream"
             >
               <Image
-                src="/images/real/storefront-banner.jpeg"
-                alt="Lago's Ice Cream storefront, Rye NH"
+                src="/images/real/banner.png"
+                alt="Lago's Ice Cream stand at sunset, Rye NH"
                 fill
                 className="object-cover"
                 sizes="176px"

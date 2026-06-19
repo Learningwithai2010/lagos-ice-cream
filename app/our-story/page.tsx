@@ -22,7 +22,7 @@ export default function OurStoryPage() {
         <div className="relative overflow-hidden">
           <div className="h-64 md:h-80 relative">
             <Image
-              src="/images/real/storefront-banner.jpeg"
+              src="/images/real/flavors-photo.jpg"
               alt="A row of Lago's homemade ice cream flavors"
               fill
               sizes="100vw"

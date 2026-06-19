@@ -56,7 +56,7 @@ export default function AwardWall() {
           <p className="text-gold-light text-xs font-semibold uppercase tracking-[0.18em] mb-3">
             The Gold Standard of NH Ice Cream
           </p>
-          <h2 className="font-display font-bold text-white leading-tight" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>
+          <h2 className="font-display text-display-lg font-bold text-white">
             Voted <span className="text-gold-light">NH&apos;s Best Ice Cream</span> 13 times.
           </h2>
           <p className="text-white/70 mt-4 text-base leading-relaxed">

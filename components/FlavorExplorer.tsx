@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { Search, X, ChevronDown, ChevronUp, Flame, Sparkles } from 'lucide-react'
+import { Search, X, ChevronDown, ChevronUp, Flame, Sparkles, IceCreamCone, Check } from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import clsx from 'clsx'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
@@ -134,7 +134,9 @@ function FlavorCard({ flavor, isPopular }: { flavor: Flavor; isPopular: boolean 
         </div>
       )}
       {flavor.allergens.length === 0 && (
-        <p className="text-xs text-green-700 font-medium">✓ No common allergens</p>
+        <p className="inline-flex items-center gap-1 text-xs text-green-700 font-medium">
+          <Check className="w-3.5 h-3.5" strokeWidth={2.5} /> No common allergens
+        </p>
       )}
     </div>
   )
@@ -384,7 +386,7 @@ export default function FlavorExplorer() {
                   transition={{ duration: 0.25 }}
                   className="text-center py-20"
                 >
-                  <p className="text-4xl mb-4">🍦</p>
+                  <IceCreamCone className="w-12 h-12 mx-auto mb-4 text-stone-light" strokeWidth={1.5} />
                   <h3 className="font-display font-semibold text-xl text-ink mb-2">No flavors match</h3>
                   <p className="text-stone-warm mb-4">Try removing some filters or adjusting your search.</p>
                   <button onClick={clearAll} className="btn-secondary text-sm">

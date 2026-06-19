@@ -1,32 +1,35 @@
 'use client'
 
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { RefreshCw, IceCream2 } from 'lucide-react'
+import {
+  RefreshCw, IceCream2, IceCreamCone, IceCreamBowl,
+  Grape, Cherry, Leaf, Coffee, Nut, Citrus, Croissant,
+  type LucideIcon,
+} from 'lucide-react'
 import allFlavors from '../data/flavors.json'
 import Link from 'next/link'
 import { motion, useInView } from 'framer-motion'
 
 type Flavor = typeof allFlavors[0]
 
-const COLOR_MAP: Record<string, string> = {
-  purple: 'bg-purple-50 border-purple-200',
-  chocolate: 'bg-amber-50 border-amber-300',
-  cream: 'bg-yellow-50 border-yellow-200',
-  pink: 'bg-pink-50 border-pink-200',
-  green: 'bg-emerald-50 border-emerald-200',
-  brown: 'bg-stone-100 border-stone-300',
-  amber: 'bg-amber-50 border-amber-200',
-  yellow: 'bg-yellow-50 border-yellow-200',
-  blue: 'bg-blue-50 border-blue-200',
-  orange: 'bg-orange-50 border-orange-200',
-  tan: 'bg-stone-50 border-stone-200',
+// One flavor-style map: a curated Lucide icon plus a soft tint + accent color
+// per flavor hint. The accent hex values match FlavorExplorer's COLOR_MAP so
+// both flavor surfaces share a single visual language.
+const FLAVOR_STYLE: Record<string, { icon: LucideIcon; tint: string; color: string }> = {
+  purple:    { icon: Grape,        tint: 'bg-purple-50',  color: '#7C3AED' },
+  chocolate: { icon: IceCream2,    tint: 'bg-amber-50',   color: '#92400E' },
+  cream:     { icon: IceCreamCone, tint: 'bg-amber-50',   color: '#B45309' },
+  pink:      { icon: Cherry,       tint: 'bg-pink-50',    color: '#DB2777' },
+  green:     { icon: Leaf,         tint: 'bg-emerald-50', color: '#059669' },
+  brown:     { icon: Coffee,       tint: 'bg-stone-100',  color: '#78350F' },
+  amber:     { icon: Nut,          tint: 'bg-amber-50',   color: '#D97706' },
+  yellow:    { icon: Citrus,       tint: 'bg-yellow-50',  color: '#CA8A04' },
+  blue:      { icon: IceCreamBowl, tint: 'bg-blue-50',    color: '#2563EB' },
+  orange:    { icon: Citrus,       tint: 'bg-orange-50',  color: '#EA580C' },
+  tan:       { icon: Croissant,    tint: 'bg-amber-50',   color: '#A16207' },
 }
 
-const EMOJI_MAP: Record<string, string> = {
-  purple: '🫐', chocolate: '🍫', cream: '🍦', pink: '🍓',
-  green: '🌿', brown: '☕', amber: '🍯', yellow: '🍋',
-  blue: '🫐', orange: '🍊', tan: '🥐',
-}
+const DEFAULT_STYLE = { icon: IceCream2, tint: 'bg-cream-200', color: '#2E5090' }
 
 const gridVariants = {
   hidden: {},
@@ -97,7 +100,13 @@ export default function FlavorBoard() {
       <div className="container-tight">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <p className="section-label">Live from the Stand</p>
+            <span className="inline-flex items-center gap-2 section-label">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+              </span>
+              Live from the Stand
+            </span>
             <h2 className="font-display text-display-md font-bold text-ink">Scooping Today</h2>
             <p className="text-stone-warm mt-2 text-sm">
               {activeFlavors
@@ -121,7 +130,7 @@ export default function FlavorBoard() {
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-24 rounded-2xl bg-stone-100 animate-pulse" />
+              <div key={i} className="h-36 rounded-2xl bg-stone-100 animate-pulse" />
             ))}
           </div>
         ) : (
@@ -131,28 +140,38 @@ export default function FlavorBoard() {
             animate={isInView ? 'show' : 'hidden'}
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           >
-            {displayFlavors.map((flavor) => (
+            {displayFlavors.map((flavor) => {
+              const style = FLAVOR_STYLE[flavor.colorHint] || DEFAULT_STYLE
+              const Icon = style.icon
+              return (
               <motion.div
                 key={flavor.id}
                 variants={cardVariants}
-                className={`flex flex-col items-start p-4 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card ${
-                  COLOR_MAP[flavor.colorHint] || 'bg-cream-100 border-stone-border'
-                }`}
+                className="group flex flex-col items-start p-5 rounded-2xl bg-white border border-stone-border/70 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-stone-border"
               >
-                <span className="text-2xl mb-2">{EMOJI_MAP[flavor.colorHint] || '🍦'}</span>
-                <span className="font-semibold text-ink text-sm leading-tight">{flavor.name}</span>
-                {flavor.isOriginal && (
-                  <span className="mt-1 text-[10px] font-bold tracking-wider uppercase text-raspberry-500">
-                    Lago&apos;s Original
-                  </span>
-                )}
-                {(flavor.tags as string[]).includes('dairy-free') && (
-                  <span className="mt-1 text-[10px] font-semibold uppercase text-green-700">
-                    Dairy Free
-                  </span>
+                <span
+                  className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110 ${style.tint}`}
+                >
+                  <Icon className="h-6 w-6" style={{ color: style.color }} strokeWidth={1.75} />
+                </span>
+                <span className="font-semibold text-ink text-[15px] leading-tight">{flavor.name}</span>
+                {(flavor.isOriginal || (flavor.tags as string[]).includes('dairy-free')) && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {flavor.isOriginal && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-raspberry-50 text-raspberry-600">
+                        Lago&apos;s Original
+                      </span>
+                    )}
+                    {(flavor.tags as string[]).includes('dairy-free') && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-emerald-50 text-emerald-700">
+                        Dairy Free
+                      </span>
+                    )}
+                  </div>
                 )}
               </motion.div>
-            ))}
+              )
+            })}
           </motion.div>
         )}
 
